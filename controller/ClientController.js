@@ -15,6 +15,43 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+
+// Seed Clients
+router.get("/seed", async (req,res)=> {
+
+  const clients = [
+    {
+      username: "petertan",
+      password: "456",
+      email: "petertan@hotmail.com",
+      fullName: "Peter Tan",
+  
+    },
+    {
+      username: "marygoh",
+      password: "123",
+      email: "marygoh@hotmail.com",
+      fullName: "Mary Goh",
+
+    }
+  ]
+
+  await Client.deleteMany()
+  try{
+    const seedClients = await Client.create(clients)
+    res.status(200).send(seedClients);    
+  }catch (err) {
+    res.status(500).send({ err });
+  }
+
+})
+
+
+
+
+
+
 //* Create Client
 router.post('/', async (req,res)=> {
   const clientData = req.body
@@ -28,7 +65,7 @@ router.post('/', async (req,res)=> {
 
 
 //Show 1 Client
-router.get('/:id', async (req,res)=> {
+router.get('/id/:id', async (req,res)=> {
   const {id} = req.params
   try {
     const newClient = await Client.findById(id)
@@ -44,7 +81,7 @@ router.get('/:id', async (req,res)=> {
 
 
 //Update Client
-router.put('/:id', async (req,res)=> {
+router.put('/id/:id', async (req,res)=> {
   const {id} = req.params
   const clientUpdates = req.body
   try {
@@ -61,7 +98,7 @@ router.put('/:id', async (req,res)=> {
 
 
 //Delete Client
-router.delete('/:id', async (req,res)=> {
+router.delete('/id/:id', async (req,res)=> {
   const {id} = req.params
   try {
     const deleteClient = await Client.findByIdAndDelete(id)
@@ -74,9 +111,6 @@ router.delete('/:id', async (req,res)=> {
     res.status(500).send({ err });
   }
 })
-
-
-
 
 
 
