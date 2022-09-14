@@ -76,15 +76,60 @@ router.get("/seed", async (req, res) => {
   }
 });
 
-//* Show all Vendors
+//* SHOW ALL VENDORS
 router.get("/", async (req, res) => {
-  //   try {
-  //     const allVendors = await Vendor.find({});
-  //     res.status(200).send(allVendors);
-  //   } catch (err) {
-  //     res.status(500).send({ err });
-  //   }
-  res.send("vendor get route works");
+  try {
+    const allVendors = await Vendor.find();
+    res.status(200).send(allVendors);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 });
+
+//* GET VENDOR BY ID
+router.get("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const vendor = await Vendor.findById(id);
+    res.status(200).send(vendor);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
+//* CREATE VENDOR
+router.post("/", (req, res) => {
+  const newVendor = req.body;
+  Vendor.create(newVendor, (err, vendor) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(vendor);
+    }
+  });
+});
+
+//* UPDATE VENDOR
+
+router.put("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  const vendor = req.body;
+  console.log("body", vendor);
+  try {
+    const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
+      new: true,
+    });
+    console.log("return vendor", updatedVendor);
+    if (updatedVendor === null) {
+      res.status(400).send({ error: "No Vendor found" });
+    } else {
+      res.send(updatedVendor);
+    }
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+});
+
+//* DELETE VENDOR
 
 module.exports = router;
