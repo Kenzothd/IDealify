@@ -13,14 +13,7 @@ const ActivityController = require("./controller/ActivityController");
 //config
 const app = express();
 const PORT = process.env.PORT ?? 3000;
-<<<<<<< HEAD
 const MONGO_URI = "mongodb://localhost:27017/test";
-
-=======
-const MONGO_URI =
-  // "mongodb+srv://sei38:sei38@cluster0.gndtvgd.mongodb.net/?retryWrites=true&w=majority" ??
-  "mongodb://localhost:27017/test";
->>>>>>> clovis
 const SECRET = process.env.SECRET ?? "mysecret";
 
 mongoose.connection.once("open", () => {
