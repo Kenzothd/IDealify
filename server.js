@@ -3,6 +3,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const morgan = require("morgan");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 //* controllers
 const ClientController = require("./controller/ClientController");
@@ -30,6 +33,7 @@ mongoose.connect(MONGO_URI, {}, () => {
 });
 
 //*middleware
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
