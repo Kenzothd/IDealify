@@ -14,7 +14,7 @@ const ActivityController = require("./controller/ActivityController");
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 const MONGO_URI =
-  "mongodb+srv://sei38:sei38@cluster0.gndtvgd.mongodb.net/?retryWrites=true&w=majority" ??
+  //   "mongodb+srv://sei38:sei38@cluster0.gndtvgd.mongodb.net/?retryWrites=true&w=majority" ??
   "mongodb://localhost:27017/test";
 const SECRET = process.env.SECRET ?? "mysecret";
 
@@ -26,7 +26,7 @@ mongoose.connection.on("error", (err) =>
   console.log(err.message + " is Mongod not running?")
 );
 
-mongoose.connection.on("disconnected", () => log("mongo disconnected"));
+mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
 mongoose.connect(MONGO_URI, {}, () => {
   console.log("the connection with mongodb is established");
 });
@@ -45,6 +45,6 @@ app.get("/", (req, res) => {
   res.send({ msg: "ID PROJECT STARTED" });
 });
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`express started on ${PORT}`);
 });
