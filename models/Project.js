@@ -11,6 +11,7 @@ const projectSchema = new mongoose.Schema({
   uploadedFiles: [{ type: String, required: true }],
   description: String,
   projectProgress: [{ type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
+  // review:{type: mongoose.Schema.Types.ObjectId, ref: "Review" },
 });
 
 const Project = mongoose.model("Project", projectSchema);

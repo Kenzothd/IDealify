@@ -10,9 +10,12 @@ const vendorSchema = new mongoose.Schema({
   registrationNumber: { type: String, required: true },
   incorporationDate: { type: Date, required: true },
   registeredOfficeAddress: { type: String, required: true },
-  uploadedFiles: { type: String, required: true },
+  uploadedFiles: [{ type: String, required: true }],
   trackedProjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
   brandSummary: String,
+  // messages: [{type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+  // portfolio: [{type: mongoose.Schema.Types.ObjectId, ref: "Portfolio" }],
+  // review: [{type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
 });
 
 const Vendor = mongoose.model("Vendor", vendorSchema);

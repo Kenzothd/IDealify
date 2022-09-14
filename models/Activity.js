@@ -8,6 +8,7 @@ const activitySchema = new mongoose.Schema({
   activityDescription: String,
   status: String,
   photos: [String],
+  // comments: {type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
 });
 
 const Activity = mongoose.model("Activity", activitySchema);
