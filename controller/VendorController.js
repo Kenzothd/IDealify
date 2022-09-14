@@ -110,7 +110,6 @@ router.post("/", (req, res) => {
 });
 
 //* UPDATE VENDOR
-
 router.put("/id/:id", async (req, res) => {
   const { id } = req.params;
   const vendor = req.body;
@@ -131,5 +130,14 @@ router.put("/id/:id", async (req, res) => {
 });
 
 //* DELETE VENDOR
+router.delete("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedVendor = await Vendor.findByIdAndDelete(id);
+    res.status(200).send(deletedVendor);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
 
 module.exports = router;
