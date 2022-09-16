@@ -12,31 +12,26 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-
-
 // Seed Activities
 router.get("/seed", async (req, res) => {
-
   const activities = [
     {
       activityTitle: "Hacking of walls",
-      activityDescription: "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
+      activityDescription:
+        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "Pending",
-
     },
     {
-
       activityTitle: "Hacking of toilet",
-      activityDescription: "Hackers will reach around 11am to start hacking and toilet.",
+      activityDescription:
+        "Hackers will reach around 11am to start hacking and toilet.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "Upcoming",
-
     },
     {
       activityTitle: "Install toilet piping",
@@ -45,92 +40,89 @@ router.get("/seed", async (req, res) => {
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "In Progress",
-
     },
     {
       activityTitle: "Hacking of Room",
-      activityDescription: "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
+      activityDescription:
+        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "Completed",
-
     },
     {
       activityTitle: "Hacking of Master Bedroom",
-      activityDescription: "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
+      activityDescription:
+        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "Cancelled",
-
     },
     {
       activityTitle: "Painting of Master Bedroom",
-      activityDescription: "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
+      activityDescription:
+        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "Completed",
-
     },
     {
       activityTitle: "Painting of Toilet",
-      activityDescription: "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
+      activityDescription:
+        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
       status: "Upcoming",
-    }
-  ]
+    },
+  ];
 
-  await Activity.deleteMany()
+  await Activity.deleteMany();
   try {
-    const seedActivities = await Activity.create(activities)
+    const seedActivities = await Activity.create(activities);
     res.status(200).send(seedActivities);
   } catch (err) {
     res.status(500).send({ err });
   }
-
-})
-
-
-
+});
 
 //* Create Activity
-router.post('/', async (req, res) => {
-  const activityData = req.body
+router.post("/", async (req, res) => {
+  const activityData = req.body;
   try {
-    const activity = await Activity.create(activityData)
+    const activity = await Activity.create(activityData);
     res.status(200).send(activity);
   } catch (err) {
     res.status(500).send({ err });
   }
-})
-
+});
 
 //Show 1 Activity
-router.get('/id/:id', async (req, res) => {
-  const { id } = req.params
+router.get("/id/:id", async (req, res) => {
+  const { id } = req.params;
   try {
-    const newActivity = await Activity.findById(id)
+    const newActivity = await Activity.findById(id);
     if (newActivity === null) {
       res.status(400).send({ error: "No activity found!" });
     }
     res.status(200).send(newActivity);
-
   } catch (err) {
     res.status(500).send({ err });
   }
-})
-
+});
 
 //Update Client
-router.put('/id/:id', async (req, res) => {
-  const { id } = req.params
-  const activityUpdates = req.body
+router.put("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  const activityUpdates = req.body;
   try {
-    const updatedActivity = await Activity.findByIdAndUpdate(id, activityUpdates, { new: true })
+    const updatedActivity = await Activity.findByIdAndUpdate(
+      id,
+      activityUpdates,
+      { new: true }
+    );
     if (updatedActivity === null) {
       res.status(400).send({ error: "No activity found!" });
     } else {
@@ -139,14 +131,13 @@ router.put('/id/:id', async (req, res) => {
   } catch (err) {
     res.status(500).send({ err });
   }
-})
-
+});
 
 //Delete Client
-router.delete('/id/:id', async (req, res) => {
-  const { id } = req.params
+router.delete("/id/:id", async (req, res) => {
+  const { id } = req.params;
   try {
-    const deleteActivity = await Activity.findByIdAndDelete(id)
+    const deleteActivity = await Activity.findByIdAndDelete(id);
     if (deleteActivity === null) {
       res.status(400).send({ error: "No activity found!" });
     } else {
@@ -155,7 +146,6 @@ router.delete('/id/:id', async (req, res) => {
   } catch (err) {
     res.status(500).send({ err });
   }
-})
-
+});
 
 module.exports = router;
