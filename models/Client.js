@@ -8,7 +8,9 @@ const clientSchema = new mongoose.Schema({
   trackedProjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
   // favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Portfolio" }],
   // messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
-});
+},
+{timestamps: true}
+);
 
 const Client = mongoose.model("Client", clientSchema);
 

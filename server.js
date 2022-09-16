@@ -17,7 +17,7 @@ const ActivityController = require("./controller/ActivityController");
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 const MONGO_URI = "mongodb://localhost:27017/test";
-const SECRET = process.env.SECRET ?? "mysecret";
+
 
 mongoose.connection.once("open", () => {
   console.log("connected to mongoose...");
