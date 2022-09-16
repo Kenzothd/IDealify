@@ -19,7 +19,7 @@ router.get("/seed", async (req, res) => {
       contactNumber: 92839485,
       companyName: "Admin Pte Ltd",
       registrationNumber: "201783726D",
-      incorporationDate: new Date(2022, 09, 14),
+      incorporationDate: new Date("2022-03-25"),
       registeredOfficeAddress: "123 Admin Road Singapore 123456",
       uploadedFile: [{ name: "company ACRA document", url: "url here" }],
       trackedProjects: [],
@@ -33,7 +33,7 @@ router.get("/seed", async (req, res) => {
       contactNumber: 90015846,
       companyName: "Faith Pte Ltd",
       registrationNumber: "201784526D",
-      incorporationDate: new Date(2022, 09, 12),
+      incorporationDate: new Date("2021-05-25"),
       registeredOfficeAddress: "123 Faith Road Singapore 123456",
       uploadedFile: [{ name: "company ACRA document", url: "url here" }],
       trackedProjects: [],
@@ -47,7 +47,7 @@ router.get("/seed", async (req, res) => {
       contactNumber: 92445485,
       companyName: "Clovis Pte Ltd",
       registrationNumber: "201783726D",
-      incorporationDate: new Date(2022, 08, 14),
+      incorporationDate: new Date("2020-10-27"),
       registeredOfficeAddress: "123 Clovis Road Singapore 123456",
       uploadedFile: [{ name: "company ACRA document", url: "url here" }],
       trackedProjects: [],
@@ -92,38 +92,31 @@ router.get("/", async (req, res) => {
   }
 });
 
+//VENDOR LOGIN
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
 
-//VENDOR LOGIN 
-router.post('/login', async (req, res) => {
-  const { username, password } = req.body
-
-  const vendor = await Vendor.findOne({ username })
+  const vendor = await Vendor.findOne({ username });
 
   if (vendor === null) {
     res.status(400).send({ error: "Vendor Not Found" });
-
   } else if (bcrypt.compareSync(password, vendor.password)) {
-    const userId = vendor._id
-    const username = vendor.username
-    const payload = { userId, username }
-    const token = jwt.sign(payload, SECRET, { expiresIn: "30m" })
+    const userId = vendor._id;
+    const username = vendor.username;
+    const payload = { userId, username };
+    const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
     res.status(200).send({ msg: "login", token });
-
   } else {
     res.status(400).send({ error: "Wrong Password" });
   }
-})
-
-
-
-
+});
 
 //* GET VENDOR BY ID
 router.get("/id/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const vendor = await Vendor.findById(id);
-    res.status(200).send(vendor)
+    res.status(200).send(vendor);
   } catch (err) {
     res.status(500).send({ err });
   }
@@ -132,14 +125,22 @@ router.get("/id/:id", async (req, res) => {
 //* CREATE VENDOR
 router.post("/", async (req, res) => {
   const newVendor = req.body;
-  newVendor.password = bcrypt.hashSync(newVendor.password, 10)
-  console.log(newVendor)
-  const findUsername = await Vendor.find({ username: newVendor.username })
-  const findEmail = await Vendor.find({ email: newVendor.email })
-  const findRegistrationNumber = await Vendor.find({ registrationNumber: newVendor.registrationNumber })
-  console.log(findRegistrationNumber)
-  if (findUsername.length !== 0 && findEmail.length !== 0 && findRegistrationNumber.length !== 0) {
-    res.status(400).send({ error: "Username, Email and Registration Number existed" });
+  newVendor.password = bcrypt.hashSync(newVendor.password, 10);
+  console.log(newVendor);
+  const findUsername = await Vendor.find({ username: newVendor.username });
+  const findEmail = await Vendor.find({ email: newVendor.email });
+  const findRegistrationNumber = await Vendor.find({
+    registrationNumber: newVendor.registrationNumber,
+  });
+  console.log(findRegistrationNumber);
+  if (
+    findUsername.length !== 0 &&
+    findEmail.length !== 0 &&
+    findRegistrationNumber.length !== 0
+  ) {
+    res
+      .status(400)
+      .send({ error: "Username, Email and Registration Number existed" });
   } else if (findUsername.length !== 0 && findEmail.length !== 0) {
     res.status(400).send({ error: "Username existed and Email Existed" });
   } else if (findUsername.length !== 0 && findRegistrationNumber.length !== 0) {
@@ -153,10 +154,9 @@ router.post("/", async (req, res) => {
   } else if (findRegistrationNumber.length !== 0) {
     res.status(400).send({ error: "Registration Number existed" });
   } else {
-
     await Vendor.create(newVendor, (error, vendor) => {
       if (error) {
-        res.status(500).send({ error: "Missing fields, please try again" })
+        res.status(500).send({ error: "Missing fields, please try again" });
       } else {
         res.status(200).send(vendor);
       }
