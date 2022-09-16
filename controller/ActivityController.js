@@ -22,7 +22,7 @@ router.get("/seed", async (req, res) => {
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
-      status: "Pending",
+      status: "Upcoming",
     },
     {
       activityTitle: "Hacking of toilet",
@@ -36,42 +36,6 @@ router.get("/seed", async (req, res) => {
     {
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
-      activityStartDate: "2022-09-14T13:31:08.355Z",
-      activityEndDate: "2022-09-14T13:31:08.355Z",
-      personInCharge: "Mr Ye",
-      status: "In Progress",
-    },
-    {
-      activityTitle: "Hacking of Room",
-      activityDescription:
-        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
-      activityStartDate: "2022-09-14T13:31:08.355Z",
-      activityEndDate: "2022-09-14T13:31:08.355Z",
-      personInCharge: "Mr Ye",
-      status: "Completed",
-    },
-    {
-      activityTitle: "Hacking of Master Bedroom",
-      activityDescription:
-        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
-      activityStartDate: "2022-09-14T13:31:08.355Z",
-      activityEndDate: "2022-09-14T13:31:08.355Z",
-      personInCharge: "Mr Ye",
-      status: "Cancelled",
-    },
-    {
-      activityTitle: "Painting of Master Bedroom",
-      activityDescription:
-        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
-      activityStartDate: "2022-09-14T13:31:08.355Z",
-      activityEndDate: "2022-09-14T13:31:08.355Z",
-      personInCharge: "Mr Ye",
-      status: "Completed",
-    },
-    {
-      activityTitle: "Painting of Toilet",
-      activityDescription:
-        "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
       personInCharge: "Mr Ye",
