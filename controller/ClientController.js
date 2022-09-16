@@ -18,6 +18,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+//* Find by Name
+router.get("/name", async (req, res) => {
+  const clientName = req.body
+  console.log(clientName)
+
+  const client = await Client.find(clientName)
+
+  if (client.length === 0) {
+    res.status(400).send({ error: "No client found!" });
+  } else {
+    res.status(200).send(client);
+  }
+
+
+})
+
 
 //Client Login 
 router.post('/login', async (req, res) => {

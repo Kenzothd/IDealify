@@ -60,6 +60,7 @@ const projectSchema = new mongoose.Schema({
       "Hollywood Regency",
       "Modern farmhouse",
       "Black & White",
+      "Others"
     ],
   },
 });

@@ -1,6 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const Vendor = require("../models/Vendor");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
+//config
+const SECRET = process.env.SECRET ?? "KFC";
 
 //* SEED ROUTE
 router.get("/seed", async (req, res) => {
@@ -9,7 +15,7 @@ router.get("/seed", async (req, res) => {
       email: "admin123@hotmail.com",
       contactPersonName: "Admin",
       username: "admin123",
-      password: "password123",
+      password: bcrypt.hashSync("password123", 10),
       contactNumber: 92839485,
       companyName: "Admin Pte Ltd",
       registrationNumber: "201783726D",
@@ -23,7 +29,7 @@ router.get("/seed", async (req, res) => {
       email: "faith@hotmail.com",
       contactPersonName: "faith",
       username: "faith123",
-      password: "password123",
+      password: bcrypt.hashSync("password123", 10),
       contactNumber: 90015846,
       companyName: "Faith Pte Ltd",
       registrationNumber: "201784526D",
@@ -37,7 +43,7 @@ router.get("/seed", async (req, res) => {
       email: "clovis123@hotmail.com",
       contactPersonName: "Clovis",
       username: "clovis123",
-      password: "password123",
+      password: bcrypt.hashSync("password123", 10),
       contactNumber: 92445485,
       companyName: "Clovis Pte Ltd",
       registrationNumber: "201783726D",
@@ -51,7 +57,7 @@ router.get("/seed", async (req, res) => {
       email: "kenzo123@hotmail.com",
       contactPersonName: "Kenzo",
       username: "kenzo123",
-      password: "password123",
+      password: bcrypt.hashSync("password123", 10),
       contactNumber: 92834825,
       companyName: "Kenzo Pte Ltd",
       registrationNumber: "201783726D",
@@ -86,27 +92,76 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+//VENDOR LOGIN 
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body
+
+  const vendor = await Vendor.findOne({ username })
+
+  if (vendor === null) {
+    res.status(400).send({ error: "Vendor Not Found" });
+
+  } else if (bcrypt.compareSync(password, vendor.password)) {
+    const userId = vendor._id
+    const username = vendor.username
+    const payload = { userId, username }
+    const token = jwt.sign(payload, SECRET, { expiresIn: "30m" })
+    res.status(200).send({ msg: "login", token });
+
+  } else {
+    res.status(400).send({ error: "Wrong Password" });
+  }
+})
+
+
+
+
+
 //* GET VENDOR BY ID
 router.get("/id/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const vendor = await Vendor.findById(id);
-    res.status(200).send(vendor);
+    res.status(200).send(vendor)
   } catch (err) {
     res.status(500).send({ err });
   }
 });
 
 //* CREATE VENDOR
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const newVendor = req.body;
-  Vendor.create(newVendor, (err, vendor) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(200).send(vendor);
-    }
-  });
+  newVendor.password = bcrypt.hashSync(newVendor.password, 10)
+  console.log(newVendor)
+  const findUsername = await Vendor.find({ username: newVendor.username })
+  const findEmail = await Vendor.find({ email: newVendor.email })
+  const findRegistrationNumber = await Vendor.find({ registrationNumber: newVendor.registrationNumber })
+  console.log(findRegistrationNumber)
+  if (findUsername.length !== 0 && findEmail.length !== 0 && findRegistrationNumber.length !== 0) {
+    res.status(400).send({ error: "Username, Email and Registration Number existed" });
+  } else if (findUsername.length !== 0 && findEmail.length !== 0) {
+    res.status(400).send({ error: "Username existed and Email Existed" });
+  } else if (findUsername.length !== 0 && findRegistrationNumber.length !== 0) {
+    res.status(400).send({ error: "Username and Registration Number Existed" });
+  } else if (findEmail.length !== 0 && findRegistrationNumber.length !== 0) {
+    res.status(400).send({ error: "Email and Registration Number Existed" });
+  } else if (findUsername.length !== 0) {
+    res.status(400).send({ error: "Username existed" });
+  } else if (findEmail.length !== 0) {
+    res.status(400).send({ error: "Email existed" });
+  } else if (findRegistrationNumber.length !== 0) {
+    res.status(400).send({ error: "Registration Number existed" });
+  } else {
+
+    await Vendor.create(newVendor, (error, vendor) => {
+      if (error) {
+        res.status(500).send({ error: "Missing fields, please try again" })
+      } else {
+        res.status(200).send(vendor);
+      }
+    });
+  }
 });
 
 //* UPDATE VENDOR
