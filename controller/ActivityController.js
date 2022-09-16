@@ -25,7 +25,7 @@ const activities = [
 		activityStartDate: "2022-09-14T13:31:08.355Z",
 		activityEndDate: "2022-09-14T13:31:08.355Z",
 		personInCharge: "Mr Ye",
-		status: "Ongoing",
+		status: "Upcoming",
 
 	},
 	{
@@ -35,7 +35,7 @@ const activities = [
 		activityStartDate: "2022-09-14T13:31:08.355Z",
 		activityEndDate: "2022-09-14T13:31:08.355Z",
 		personInCharge: "Mr Ye",
-		status: "Ongoing",
+		status: "Upcoming",
 	
 	},
 	{
@@ -44,7 +44,7 @@ const activities = [
 		activityStartDate: "2022-09-14T13:31:08.355Z",
 		activityEndDate: "2022-09-14T13:31:08.355Z",
 		personInCharge: "Mr Ye",
-		status: "Ongoing",
+		status: "Upcoming",
 
 	}
 ]
