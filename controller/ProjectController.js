@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project");
-const jwt = require("jsonwebtoken");
-const Client = require("../models/Client")
-const Vendor = require("../models/Vendor")
 
+const jwt = require("jsonwebtoken");
+const Client = require("../models/Client");
+const Vendor = require("../models/Vendor");
 
 //config
 const SECRET = process.env.SECRET ?? "KFC";
@@ -65,7 +65,6 @@ router.get("/seed", async (req, res) => {
 
 //* Show all Projects(Index Route)
 router.get("/", async (req, res) => {
-
   try {
     const allProjects = await Project.find({});
     res.status(200).send(allProjects);
@@ -73,8 +72,6 @@ router.get("/", async (req, res) => {
     res.status(500).send({ err });
   }
 });
-
-
 
 //* Create Route
 router.post("/", async (req, res) => {
@@ -87,8 +84,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-
-//* Show Route(find by id)
+//* Show Projects By ID
 router.get("/id/:id", async (req, res) => {
   const { id } = req.params;
   try {

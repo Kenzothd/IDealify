@@ -13,9 +13,11 @@ router.get("/", async (req, res) => {
 });
 
 // Seed Activities
+// ["Pending", "Upcoming", "In Progress", "Completed", "Cancelled"],
 router.get("/seed", async (req, res) => {
   const activities = [
     {
+      projectId: "6322ca80102f0fb0edf322e4",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -25,21 +27,41 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      activityTitle: "Hacking of toilet",
+      projectId: "6322ca80102f0fb0edf322e6",
+      activityTitle: "Painting of Toilet",
       activityDescription:
-        "Hackers will reach around 11am to start hacking and toilet.",
+        "Painters will arrive in the morning and complete in an hour",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
-      personInCharge: "Mr Ye",
-      status: "Upcoming",
+      personInCharge: "Mr Clovis",
+      status: "Pending",
     },
     {
+      projectId: "6322ca80102f0fb0edf322e4",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
       activityEndDate: "2022-09-14T13:31:08.355Z",
-      personInCharge: "Mr Ye",
-      status: "Upcoming",
+      personInCharge: "Mr Kenzo",
+      status: "Completed",
+    },
+    {
+      projectId: "6322ca80102f0fb0edf322e5",
+      activityTitle: "Install toilet piping",
+      activityDescription: "Worker will reach around 11am to install piping.",
+      activityStartDate: "2022-09-14T13:31:08.355Z",
+      activityEndDate: "2022-09-14T13:31:08.355Z",
+      personInCharge: "Mr Kenzo",
+      status: "In Progress",
+    },
+    {
+      projectId: "6322ca80102f0fb0edf322e6",
+      activityTitle: "Install toilet piping",
+      activityDescription: "Worker will reach around 11am to install piping.",
+      activityStartDate: "2022-09-14T13:31:08.355Z",
+      activityEndDate: "2022-09-14T13:31:08.355Z",
+      personInCharge: "Mr Kenzo",
+      status: "Cancelled",
     },
   ];
 
@@ -63,7 +85,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//Show 1 Activity
+//Show 1 Activity by activity ID
 router.get("/id/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -77,7 +99,7 @@ router.get("/id/:id", async (req, res) => {
   }
 });
 
-//Update Client
+//Update Activity
 router.put("/id/:id", async (req, res) => {
   const { id } = req.params;
   const activityUpdates = req.body;
@@ -97,7 +119,7 @@ router.put("/id/:id", async (req, res) => {
   }
 });
 
-//Delete Client
+//Delete Activity
 router.delete("/id/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -107,6 +129,17 @@ router.delete("/id/:id", async (req, res) => {
     } else {
       res.status(200).send(deleteActivity);
     }
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
+// Get Activities based on Project Id
+router.get("/project", async (req, res) => {
+  const query = req.query;
+  try {
+    const activitiesFound = await Activity.find({ projectId: query.projectId });
+    res.send(activitiesFound);
   } catch (err) {
     res.status(500).send({ err });
   }
