@@ -5,6 +5,31 @@ const Vendor = require("../models/Vendor");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+const multer = require("multer"); // image upload trial
+const path = require("path"); // image upload trial
+
+// const multerStorage = multer.memoryStorage(); // image upload trial
+// const upload = multer({ storage: multerStorage }); // image upload trial
+
+router.use(
+  "../src/assets/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "../src/assets/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
+    );
+  },
+});
+
+const upload = multer({ storage: storage });
+
 //config
 const SECRET = process.env.SECRET ?? "KFC";
 
@@ -21,7 +46,7 @@ router.get("/seed", async (req, res) => {
       registrationNumber: "201783726D",
       incorporationDate: new Date("2022-03-25"),
       registeredOfficeAddress: "123 Admin Road Singapore 123456",
-      uploadedFile: [{ name: "company ACRA document", url: "url here" }],
+      uploadedFiles: "url",
       trackedProjects: [],
       brandSummary: "some say best in batam",
     },
@@ -35,7 +60,7 @@ router.get("/seed", async (req, res) => {
       registrationNumber: "201784526D",
       incorporationDate: new Date("2021-05-25"),
       registeredOfficeAddress: "123 Faith Road Singapore 123456",
-      uploadedFile: [{ name: "company ACRA document", url: "url here" }],
+      uploadedFiles: "url",
       trackedProjects: [],
       brandSummary: "some say best in johor",
     },
@@ -49,7 +74,7 @@ router.get("/seed", async (req, res) => {
       registrationNumber: "201783726D",
       incorporationDate: new Date("2020-10-27"),
       registeredOfficeAddress: "123 Clovis Road Singapore 123456",
-      uploadedFile: [{ name: "company ACRA document", url: "url here" }],
+      uploadedFiles: "url",
       trackedProjects: [],
       brandSummary: "some say best in korea",
     },
@@ -63,7 +88,7 @@ router.get("/seed", async (req, res) => {
       registrationNumber: "201783726D",
       incorporationDate: new Date(2022, 05, 14),
       registeredOfficeAddress: "123 Kenzo Road Singapore 123456",
-      uploadedFile: [{ name: "company ACRA document", url: "url here" }],
+      uploadedFiles: "url",
       trackedProjects: [],
       brandSummary: "some say best in japan",
     },
@@ -191,10 +216,48 @@ router.post("/", async (req, res) => {
 });
 
 //* UPDATE VENDOR
-router.put("/id/:id", async (req, res) => {
+// router.put("/id/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const vendor = req.body;
+//   console.log("body", vendor);
+//   try {
+//     const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
+//       new: true,
+//     });
+//     console.log("return vendor", updatedVendor);
+//     if (updatedVendor === null) {
+//       res.status(400).send({ error: "No Vendor found" });
+//     } else {
+//       res.send(updatedVendor);
+//     }
+//   } catch (error) {
+//     res.status(400).send({ error });
+//   }
+// });
+
+//image update trial
+router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
   const { id } = req.params;
-  const vendor = req.body;
-  console.log("body", vendor);
+  const body = req.body;
+  // const image = req.file;
+  console.log(body);
+  // console.log(req.file.filename);
+
+  const vendor = {
+    email: body.email,
+    contactPersonName: body.contactPersonName,
+    username: body.username,
+    password: body.password,
+    contactNumber: body.contactNumber,
+    companyName: body.companyName,
+    registrationNumber: body.registrationNumber,
+    incorporationDate: body.incorporationDate,
+    registeredOfficeAddress: body.registeredOfficeAddress,
+    uploadedFiles:
+      req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename,
+    // trackedProjects: [""],
+    // brandSummary: "",
+  };
   try {
     const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
       new: true,
