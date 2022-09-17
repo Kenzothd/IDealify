@@ -65,9 +65,24 @@ router.get("/seed", async (req, res) => {
 
 //* Show all Projects(Index Route)
 router.get("/", async (req, res) => {
+
+  const bearer = req.get("Authorization");
+  const token = bearer.split(" ")[1];
+
+
   try {
-    const allProjects = await Project.find({});
-    res.status(200).send(allProjects);
+    const payload = jwt.verify(token, SECRET);
+    const vendorID = payload.userId
+    console.log(vendorID)
+
+
+    const allProjects = await Project.find({ vendorID: vendorID });
+    if (allProjects.length === 0) {
+      res.status(500).send({ error: "No Projects Found" });
+    } else {
+      res.status(200).send(allProjects);
+    }
+
   } catch (err) {
     res.status(500).send({ err });
   }
