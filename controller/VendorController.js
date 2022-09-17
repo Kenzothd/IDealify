@@ -111,6 +111,32 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//VENDOR VERIFY
+router.post("/verify", async (req, res) => {
+  const bearer = req.get("Authorization");
+  const token = bearer.split(" ")[1];
+  console.log(token)
+
+  try {
+    const payload = jwt.verify(token, SECRET);
+    const vendorID = payload.userId
+    console.log(vendorID)
+
+    const vendor = await Vendor.findById(vendorID);
+    if (vendor.length === 0) {
+      res.status(500).send({ error: "Not Authorized Vendor" });
+    } else {
+      res.status(200).send(vendor);
+    }
+
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+
+
+
+})
+
 //* GET VENDOR BY ID
 router.get("/id/:id", async (req, res) => {
   const { id } = req.params;
