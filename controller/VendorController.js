@@ -144,7 +144,7 @@ router.get(
 );
 
 //VENDOR LOGIN
-router.post("/login", authenticateToken, async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const vendor = await Vendor.findOne({ username });
   if (vendor === null) {
