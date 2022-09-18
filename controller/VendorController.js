@@ -117,6 +117,28 @@ router.get("/", async (req, res) => {
   }
 });
 
+//* Find by Name
+router.get("/findByName/:name", async (req, res) => {
+  const { name } = req.params;
+  const vendor = await Vendor.find({ username: name });
+  if (vendor.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(vendor);
+  }
+});
+
+//* Find by Registration Number
+router.get("/findByRegistrationNum/:num", async (req, res) => {
+  const { num } = req.params;
+  const vendor = await Vendor.find({ registrationNumber: num });
+  if (vendor.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(vendor);
+  }
+});
+
 //VENDOR LOGIN
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -205,7 +227,11 @@ router.post("/", async (req, res) => {
       if (error) {
         res.status(500).send({ error: "Missing fields, please try again" });
       } else {
-        res.status(200).send(vendor);
+        const userId = vendor._id;
+        const username = vendor.username;
+        const payload = { userId, username };
+        const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
+        res.status(200).send({ vendor, token });
       }
     });
   }
