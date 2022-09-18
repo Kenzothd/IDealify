@@ -12,7 +12,7 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       return res.status(403).send({ error: "Token is no longer valid" });
     } else {
-      // data returned here is whatever stored in token!
+      // data returned here is payload stored in token!
       req.data = data;
       next();
     }
