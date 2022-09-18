@@ -1,35 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Activity = require("../models/Activity");
-const jwt = require("jsonwebtoken");
-const SECRET = process.env.SECRET ?? "KFC";
-
-// VERIFICATION MIDDLEWARE
-const authenticateToken = (req, res, next) => {
-  const bearer = req.get("Authorization");
-  const token = bearer && bearer.split(" ")[1];
-  console.log(token);
-  try {
-    if (token === null) {
-      res.status(401).send({ error: "Token not found" });
-    } else {
-      console.log("checking verification");
-      jwt.verify(token, SECRET, (err, data) => {
-        if (err) {
-          return res.status(403).send({ error: "Token is no longer valid" });
-        } else {
-          // data returned here is whatever stored in token!
-          req.data = data;
-          next();
-        }
-      });
-    }
-  } catch {
-    (err) => {
-      res.status(500).send({ error: err });
-    };
-  }
-};
+const authenticateToken = require("../middleware/authenticateToken");
 
 //* Show all Activities
 router.get("/", async (req, res) => {
@@ -164,7 +136,7 @@ router.delete("/id/:id", async (req, res) => {
 });
 
 // Get Activities based on Project Id
-router.get("/project", authenticateToken, async (req, res) => {
+router.get("/projects", async (req, res) => {
   const query = req.query;
   try {
     const activitiesFound = await Activity.find({ projectId: query.projectId });
@@ -173,5 +145,16 @@ router.get("/project", authenticateToken, async (req, res) => {
     res.status(500).send({ err });
   }
 });
+
+// With authentication version for demo
+// router.get("/projects", authenticateToken, async (req, res) => {
+//   const query = req.query;
+//   try {
+//     const activitiesFound = await Activity.find({ projectId: query.projectId });
+//     res.send(activitiesFound);
+//   } catch (err) {
+//     res.status(500).send({ err });
+//   }
+// });
 
 module.exports = router;

@@ -134,30 +134,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// VERIFICATION MIDDLEWARE
-const authenticateToken = (req, res, next) => {
-  const bearer = req.get("Authorization");
-  const token = bearer && bearer.split(" ")[1];
-  console.log(token);
-  try {
-    if (token === null) {
-      res.status(401).send({ error: "Token not found" });
-    } else {
-      jwt.verify(token, SECRET, (err, data) => {
-        if (err) {
-          return res.status(403).send({ error: "Token is no longer valid" });
-        } else {
-          next();
-        }
-      });
-    }
-  } catch {
-    (err) => {
-      res.status(500).send({ error: err });
-    };
-  }
-};
-
 // faith's comment, verify route is not necesary with the authenticateToken Middleware
 //VENDOR VERIFY
 router.post("/verify", async (req, res) => {
