@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Activity = require("../models/Activity");
+const authenticateToken = require("../middleware/authenticateToken");
 
 //* Show all Activities
 router.get("/", async (req, res) => {
@@ -135,7 +136,7 @@ router.delete("/id/:id", async (req, res) => {
 });
 
 // Get Activities based on Project Id
-router.get("/project", async (req, res) => {
+router.get("/projects", async (req, res) => {
   const query = req.query;
   try {
     const activitiesFound = await Activity.find({ projectId: query.projectId });
@@ -144,5 +145,16 @@ router.get("/project", async (req, res) => {
     res.status(500).send({ err });
   }
 });
+
+// With authentication version for demo
+// router.get("/projects", authenticateToken, async (req, res) => {
+//   const query = req.query;
+//   try {
+//     const activitiesFound = await Activity.find({ projectId: query.projectId });
+//     res.send(activitiesFound);
+//   } catch (err) {
+//     res.status(500).send({ err });
+//   }
+// });
 
 module.exports = router;

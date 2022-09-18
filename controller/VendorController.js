@@ -142,9 +142,7 @@ router.get("/findByRegistrationNum/:num", async (req, res) => {
 //VENDOR LOGIN
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-
   const vendor = await Vendor.findOne({ username });
-
   if (vendor === null) {
     res.status(400).send({ error: "Vendor Not Found" });
   } else if (bcrypt.compareSync(password, vendor.password)) {
@@ -158,6 +156,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// faith's comment, verify route is not necesary with the authenticateToken Middleware
 //VENDOR VERIFY
 router.post("/verify", async (req, res) => {
   const bearer = req.get("Authorization");
