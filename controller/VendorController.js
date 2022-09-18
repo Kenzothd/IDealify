@@ -5,7 +5,6 @@ const Vendor = require("../models/Vendor");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const authenticateToken = require("../middleware/authenticateToken");
-
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
 
@@ -130,15 +129,19 @@ router.get("/findByName/:name", authenticateToken, async (req, res) => {
 });
 
 //* Find by Registration Number
-router.get("/findByRegistrationNum/:num", async (req, res) => {
-  const { num } = req.params;
-  const vendor = await Vendor.find({ registrationNumber: num });
-  if (vendor.length === 0) {
-    res.status(200).send([]);
-  } else {
-    res.status(200).send(vendor);
+router.get(
+  "/findByRegistrationNum/:num",
+  authenticateToken,
+  async (req, res) => {
+    const { num } = req.params;
+    const vendor = await Vendor.find({ registrationNumber: num });
+    if (vendor.length === 0) {
+      res.status(200).send([]);
+    } else {
+      res.status(200).send(vendor);
+    }
   }
-});
+);
 
 //VENDOR LOGIN
 router.post("/login", authenticateToken, async (req, res) => {
@@ -151,6 +154,7 @@ router.post("/login", authenticateToken, async (req, res) => {
     const username = vendor.username;
     const payload = { userId, username };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
+    console.log(token);
     res.status(200).send({ msg: "login", token });
   } else {
     res.status(400).send({ error: "Wrong Password" });

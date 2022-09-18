@@ -9,8 +9,34 @@ const authenticateToken = require("../middleware/authenticateToken");
 //config
 const SECRET = process.env.SECRET ?? "KFC";
 
+// Seed Clients
+router.get("/seed", async (req, res) => {
+  const clients = [
+    {
+      username: "petertan",
+      password: bcrypt.hashSync("456", 10),
+      email: "petertan@hotmail.com",
+      fullName: "Peter Tan",
+    },
+    {
+      username: "marygoh",
+      password: bcrypt.hashSync("123", 10),
+      email: "marygoh@hotmail.com",
+      fullName: "Mary Goh",
+    },
+  ];
+
+  await Client.deleteMany();
+  try {
+    const seedClients = await Client.create(clients);
+    res.status(200).send(seedClients);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
 //* Show all Clients
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const allClients = await Client.find({});
     res.status(200).send(allClients);
@@ -20,7 +46,6 @@ router.get("/", async (req, res) => {
 });
 
 //* Find by Name
-// hi clovis, i have amended your route so that it works
 router.get("/findByName/:name", authenticateToken, async (req, res) => {
   const { name } = req.params;
   const client = await Client.find({ username: name });
@@ -47,32 +72,6 @@ router.post("/login", authenticateToken, async (req, res) => {
     res.status(200).send({ msg: "login", token });
   } else {
     res.status(400).send({ error: "wrong password" });
-  }
-});
-
-// Seed Clients
-router.get("/seed", async (req, res) => {
-  const clients = [
-    {
-      username: "petertan",
-      password: bcrypt.hashSync("456", 10),
-      email: "petertan@hotmail.com",
-      fullName: "Peter Tan",
-    },
-    {
-      username: "marygoh",
-      password: bcrypt.hashSync("123", 10),
-      email: "marygoh@hotmail.com",
-      fullName: "Mary Goh",
-    },
-  ];
-
-  await Client.deleteMany();
-  try {
-    const seedClients = await Client.create(clients);
-    res.status(200).send(seedClients);
-  } catch (err) {
-    res.status(500).send({ err });
   }
 });
 

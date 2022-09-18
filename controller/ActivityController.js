@@ -3,22 +3,12 @@ const router = express.Router();
 const Activity = require("../models/Activity");
 const authenticateToken = require("../middleware/authenticateToken");
 
-//* Show all Activities
-router.get("/", authenticateToken, async (req, res) => {
-  try {
-    const allActivities = await Activity.find({});
-    res.status(200).send(allActivities);
-  } catch (err) {
-    res.status(500).send({ err });
-  }
-});
-
 // Seed Activities
 // ["Pending", "Upcoming", "In Progress", "Completed", "Cancelled"],
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "6326add7293f1c7cc52a78da",
+      projectId: "6327077324b397cc5ecfdda4",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -28,7 +18,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6326add7293f1c7cc52a78d8",
+      projectId: "6327077324b397cc5ecfdda4",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -38,7 +28,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "6326add7293f1c7cc52a78da",
+      projectId: "6327077324b397cc5ecfdda4",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -75,6 +65,16 @@ router.get("/seed", async (req, res) => {
   }
 });
 
+//* Show all Activities
+router.get("/", authenticateToken, async (req, res) => {
+  try {
+    const allActivities = await Activity.find({});
+    res.status(200).send(allActivities);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
 //* Create Activity
 router.post("/", authenticateToken, async (req, res) => {
   const activityData = req.body;
@@ -89,6 +89,7 @@ router.post("/", authenticateToken, async (req, res) => {
 //Show 1 Activity by activity ID
 router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
+  console.log(req.data);
   try {
     const newActivity = await Activity.findById(id);
     if (newActivity === null) {
@@ -145,16 +146,5 @@ router.get("/projects", authenticateToken, async (req, res) => {
     res.status(500).send({ err });
   }
 });
-
-// With authentication version for demo
-// router.get("/projects", authenticateToken, async (req, res) => {
-//   const query = req.query;
-//   try {
-//     const activitiesFound = await Activity.find({ projectId: query.projectId });
-//     res.send(activitiesFound);
-//   } catch (err) {
-//     res.status(500).send({ err });
-//   }
-// });
 
 module.exports = router;
