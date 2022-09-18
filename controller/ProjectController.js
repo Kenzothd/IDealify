@@ -13,7 +13,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorID: "6319681c3cea7b50135ee0ce",
+      vendorID: "6326ad9268fde94c3e6438d4",
       clientID: "6319681c3cea7b50135ee0ce",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -26,7 +26,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorID: "6319681c3cea7b50135ee0ce",
+      vendorID: "6326ad9268fde94c3e6438d4",
       clientID: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -39,7 +39,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Scandinavian",
     },
     {
-      vendorID: "6319681c3cea7b50135ee0ce",
+      vendorID: "6326ad9268fde94c3e6438d4",
       clientID: "6319681c3cea7b50135ee0ce",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
@@ -65,16 +65,13 @@ router.get("/seed", async (req, res) => {
 
 //* Show all Projects(Index Route)
 router.get("/", async (req, res) => {
-
   const bearer = req.get("Authorization");
   const token = bearer.split(" ")[1];
 
-
   try {
     const payload = jwt.verify(token, SECRET);
-    const vendorID = payload.userId
-    console.log(vendorID)
-
+    const vendorID = payload.userId;
+    console.log(vendorID);
 
     const allProjects = await Project.find({ vendorID: vendorID });
     if (allProjects.length === 0) {
@@ -82,7 +79,6 @@ router.get("/", async (req, res) => {
     } else {
       res.status(200).send(allProjects);
     }
-
   } catch (err) {
     res.status(500).send({ err });
   }
