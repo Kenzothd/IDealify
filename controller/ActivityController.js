@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "6322ca80102f0fb0edf322e4",
+      projectId: "6326add7293f1c7cc52a78da",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -28,7 +28,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6322ca80102f0fb0edf322e6",
+      projectId: "6326add7293f1c7cc52a78d8",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -38,7 +38,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "6322ca80102f0fb0edf322e4",
+      projectId: "6326add7293f1c7cc52a78da",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -47,7 +47,7 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
-      projectId: "6322ca80102f0fb0edf322e5",
+      projectId: "6326add7293f1c7cc52a78d8",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
