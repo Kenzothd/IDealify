@@ -4,7 +4,7 @@ const Activity = require("../models/Activity");
 const authenticateToken = require("../middleware/authenticateToken");
 
 //* Show all Activities
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const allActivities = await Activity.find({});
     res.status(200).send(allActivities);
@@ -76,7 +76,7 @@ router.get("/seed", async (req, res) => {
 });
 
 //* Create Activity
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const activityData = req.body;
   try {
     const activity = await Activity.create(activityData);
@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
 });
 
 //Show 1 Activity by activity ID
-router.get("/id/:id", async (req, res) => {
+router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const newActivity = await Activity.findById(id);
@@ -101,7 +101,7 @@ router.get("/id/:id", async (req, res) => {
 });
 
 //Update Activity
-router.put("/id/:id", async (req, res) => {
+router.put("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const activityUpdates = req.body;
   try {
@@ -121,7 +121,7 @@ router.put("/id/:id", async (req, res) => {
 });
 
 //Delete Activity
-router.delete("/id/:id", async (req, res) => {
+router.delete("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const deleteActivity = await Activity.findByIdAndDelete(id);
@@ -136,7 +136,7 @@ router.delete("/id/:id", async (req, res) => {
 });
 
 // Get Activities based on Project Id
-router.get("/projects", async (req, res) => {
+router.get("/projects", authenticateToken, async (req, res) => {
   const query = req.query;
   try {
     const activitiesFound = await Activity.find({ projectId: query.projectId });

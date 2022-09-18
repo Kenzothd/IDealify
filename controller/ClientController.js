@@ -4,6 +4,7 @@ const router = express.Router();
 const Client = require("../models/Client");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const authenticateToken = require("../middleware/authenticateToken");
 
 //config
 const SECRET = process.env.SECRET ?? "KFC";
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
 
 //* Find by Name
 // hi clovis, i have amended your route so that it works
-router.get("/findByName/:name", async (req, res) => {
+router.get("/findByName/:name", authenticateToken, async (req, res) => {
   const { name } = req.params;
   const client = await Client.find({ username: name });
   if (client.length === 0) {
@@ -31,7 +32,7 @@ router.get("/findByName/:name", async (req, res) => {
 });
 
 //Client Login
-router.post("/login", async (req, res) => {
+router.post("/login", authenticateToken, async (req, res) => {
   const { username, password } = req.body;
 
   const client = await Client.findOne({ username });
@@ -76,7 +77,7 @@ router.get("/seed", async (req, res) => {
 });
 
 //* Create Client
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const newClient = req.body;
   newClient.password = bcrypt.hashSync(newClient.password, 10);
   // console.log(clientData)
@@ -103,7 +104,7 @@ router.post("/", async (req, res) => {
 });
 
 //Show 1 Client
-router.get("/id/:id", async (req, res) => {
+router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const newClient = await Client.findById(id);
@@ -114,7 +115,7 @@ router.get("/id/:id", async (req, res) => {
 });
 
 //Update Client
-router.put("/id/:id", async (req, res) => {
+router.put("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const clientUpdates = req.body;
   try {
@@ -132,7 +133,7 @@ router.put("/id/:id", async (req, res) => {
 });
 
 //Delete Client
-router.delete("/id/:id", async (req, res) => {
+router.delete("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const deleteClient = await Client.findByIdAndDelete(id);

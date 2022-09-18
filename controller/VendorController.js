@@ -4,6 +4,7 @@ const router = express.Router();
 const Vendor = require("../models/Vendor");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const authenticateToken = require("../middleware/authenticateToken");
 
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
@@ -108,7 +109,7 @@ router.get("/seed", async (req, res) => {
 });
 
 //* SHOW ALL VENDORS
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const allVendors = await Vendor.find();
     res.status(200).send(allVendors);
@@ -118,7 +119,7 @@ router.get("/", async (req, res) => {
 });
 
 //* Find by Name
-router.get("/findByName/:name", async (req, res) => {
+router.get("/findByName/:name", authenticateToken, async (req, res) => {
   const { name } = req.params;
   const vendor = await Vendor.find({ username: name });
   if (vendor.length === 0) {
@@ -140,7 +141,7 @@ router.get("/findByRegistrationNum/:num", async (req, res) => {
 });
 
 //VENDOR LOGIN
-router.post("/login", async (req, res) => {
+router.post("/login", authenticateToken, async (req, res) => {
   const { username, password } = req.body;
   const vendor = await Vendor.findOne({ username });
   if (vendor === null) {
@@ -158,7 +159,7 @@ router.post("/login", async (req, res) => {
 
 // faith's comment, verify route is not necesary with the authenticateToken Middleware
 //VENDOR VERIFY
-router.post("/verify", async (req, res) => {
+router.post("/verify", authenticateToken, async (req, res) => {
   const bearer = req.get("Authorization");
   const token = bearer.split(" ")[1];
   console.log(token);
@@ -180,7 +181,7 @@ router.post("/verify", async (req, res) => {
 });
 
 //* GET VENDOR BY ID
-router.get("/id/:id", async (req, res) => {
+router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const vendor = await Vendor.findById(id);
@@ -191,7 +192,7 @@ router.get("/id/:id", async (req, res) => {
 });
 
 //* CREATE VENDOR
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const newVendor = req.body;
   newVendor.password = bcrypt.hashSync(newVendor.password, 10);
   console.log(newVendor);
@@ -237,7 +238,7 @@ router.post("/", async (req, res) => {
 });
 
 //* UPDATE VENDOR
-router.put("/id/:id", async (req, res) => {
+router.put("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const vendor = req.body;
   console.log("body", vendor);
@@ -295,7 +296,7 @@ router.put("/id/:id", async (req, res) => {
 // });
 
 //* DELETE VENDOR
-router.delete("/id/:id", async (req, res) => {
+router.delete("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const deletedVendor = await Vendor.findByIdAndDelete(id);

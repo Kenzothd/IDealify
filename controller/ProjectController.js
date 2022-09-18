@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project");
+const authenticateToken = require("../middleware/authenticateToken");
 
 const jwt = require("jsonwebtoken");
 const Client = require("../models/Client");
@@ -13,7 +14,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorID: "6326ad9268fde94c3e6438d4",
+      vendorID: "6325c4e0da12766cb37351b8",
       clientID: "6319681c3cea7b50135ee0ce",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -26,7 +27,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorID: "6326ad9268fde94c3e6438d4",
+      vendorID: "6325c4e0da12766cb37351b8",
       clientID: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -39,7 +40,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Scandinavian",
     },
     {
-      vendorID: "6326ad9268fde94c3e6438d4",
+      vendorID: "6325c4e0da12766cb37351b8",
       clientID: "6319681c3cea7b50135ee0ce",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
@@ -64,7 +65,7 @@ router.get("/seed", async (req, res) => {
 });
 
 //* Show all Projects(Index Route)
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   const bearer = req.get("Authorization");
   const token = bearer.split(" ")[1];
 
@@ -84,7 +85,7 @@ router.get("/", async (req, res) => {
 });
 
 //* Create Route
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const newProject = req.body;
   try {
     const createdProject = await Project.create(newProject);
@@ -95,7 +96,7 @@ router.post("/", async (req, res) => {
 });
 
 //* Show Projects By ID
-router.get("/id/:id", async (req, res) => {
+router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id);
@@ -106,7 +107,7 @@ router.get("/id/:id", async (req, res) => {
 });
 
 //* Update Route
-router.put("/id/:id", async (req, res) => {
+router.put("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const project = req.body;
   try {
@@ -120,7 +121,7 @@ router.put("/id/:id", async (req, res) => {
 });
 
 //* Delete Route
-router.delete("/id/:id", async (req, res) => {
+router.delete("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const deletedProject = await Project.findByIdAndDelete(id);
