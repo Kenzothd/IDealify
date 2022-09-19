@@ -5,6 +5,7 @@ const Client = require("../models/Client");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const authenticateToken = require("../middleware/authenticateToken");
+const authenticateUser = require("../middleware/authenticateUser");
 
 //config
 const SECRET = process.env.SECRET ?? "KFC";
@@ -36,7 +37,7 @@ router.get("/seed", async (req, res) => {
 });
 
 //* Show all Clients
-router.get("/", authenticateToken, async (req, res) => {
+router.get("/", authenticateToken, authenticateUser('client'), async (req, res) => {
   try {
     const allClients = await Client.find({});
     res.status(200).send(allClients);
@@ -46,7 +47,7 @@ router.get("/", authenticateToken, async (req, res) => {
 });
 
 //* Find by Name
-router.get("/findByName/:name", authenticateToken, async (req, res) => {
+router.get("/findByName/:name", authenticateToken, authenticateUser('client'), async (req, res) => {
   const { name } = req.params;
   const client = await Client.find({ username: name });
   if (client.length === 0) {
@@ -67,7 +68,8 @@ router.post("/login", async (req, res) => {
   } else if (bcrypt.compareSync(password, client.password)) {
     const userId = client._id;
     const username = client.username;
-    const payload = { userId, username };
+    const userType = 'client'
+    const payload = { userId, username, userType };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
     res.status(200).send({ msg: "login", token });
   } else {
@@ -103,7 +105,7 @@ router.post("/", async (req, res) => {
 });
 
 //Show 1 Client
-router.get("/id/:id", authenticateToken, async (req, res) => {
+router.get("/id/:id", authenticateToken, authenticateUser('client'), async (req, res) => {
   const { id } = req.params;
   try {
     const newClient = await Client.findById(id);
@@ -114,7 +116,7 @@ router.get("/id/:id", authenticateToken, async (req, res) => {
 });
 
 //Update Client
-router.put("/id/:id", authenticateToken, async (req, res) => {
+router.put("/id/:id", authenticateToken, authenticateUser('client'), async (req, res) => {
   const { id } = req.params;
   const clientUpdates = req.body;
   try {
@@ -132,7 +134,7 @@ router.put("/id/:id", authenticateToken, async (req, res) => {
 });
 
 //Delete Client
-router.delete("/id/:id", authenticateToken, async (req, res) => {
+router.delete("/id/:id", authenticateToken, authenticateUser('client'), async (req, res) => {
   const { id } = req.params;
   try {
     const deleteClient = await Client.findByIdAndDelete(id);

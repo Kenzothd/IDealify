@@ -2,13 +2,17 @@ const express = require("express");
 const router = express.Router();
 const Activity = require("../models/Activity");
 const authenticateToken = require("../middleware/authenticateToken");
+const authenticateUser = require("../middleware/authenticateUser");
+const Project = require("../models/Project");
 
 // Seed Activities
 // ["Pending", "Upcoming", "In Progress", "Completed", "Cancelled"],
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "6327077324b397cc5ecfdda4",
+      projectId: "632576885b2ba557950efa87",
+      // vendorId: "632449ff2e3c757cbafebab3",
+      // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -18,7 +22,9 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6327077324b397cc5ecfdda4",
+      projectId: "632576885b2ba557950efa87",
+      // vendorId: "632449ff2e3c757cbafebab3",
+      // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -28,7 +34,9 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "6327077324b397cc5ecfdda4",
+      projectId: "632576885b2ba557950efa87",
+      // vendorId: "632449ff2e3c757cbafebab3",
+      // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -37,7 +45,9 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
-      projectId: "6326add7293f1c7cc52a78d8",
+      projectId: "632576885b2ba557950efa87",
+      // vendorId: "632449ff2e3c757cbafebab3",
+      // clientId: "6323d7b309953c1e202421af",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -46,7 +56,9 @@ router.get("/seed", async (req, res) => {
       status: "In Progress",
     },
     {
-      projectId: "6322ca80102f0fb0edf322e6",
+      projectId: "632576885b2ba557950efa87",
+      // vendorId: "632449ff2e3c757cbafebab4",
+      // clientId: "6323d7b309953c1e202421af",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -65,26 +77,43 @@ router.get("/seed", async (req, res) => {
   }
 });
 
-//* Show all Activities
-router.get("/", authenticateToken, async (req, res) => {
-  try {
-    const allActivities = await Activity.find({});
-    res.status(200).send(allActivities);
-  } catch (err) {
-    res.status(500).send({ err });
-  }
-});
+// //* Show all Activities based on userID (KIV)
+// router.get("/", authenticateToken, async (req, res) => {
+//   const { userType, userId } = req.payload
+//   const userID = userType + "Id"
+//   try {
+
+//     const allActivities = await Activity.find({
+//       [userID]: userId,
+//     });
+//     res.status(200).send(allActivities);
+//   } catch (err) {
+//     res.status(500).send({ err }); fgfdgtyr
+//   }
+// });
+
 
 //* Create Activity
-router.post("/", authenticateToken, async (req, res) => {
-  const activityData = req.body;
+router.post("/", authenticateToken, authenticateUser('vendor'), async (req, res) => { // payload -> vendorID Step 3
+  const { projectId } = req.body; //project id Step 1
+  const { userType, userId } = req.payload
+  console.log(projectId)
+  const project = await Project.findById(projectId); // project details (TRUTH)  - clientId + vendor ID Step 2
+  // if project == null then not found
+  // if pass then payload's user ID == vendorID taken from Project database
+  // if false, then say 'wrong vendor editing this project'
+  // if true then execute below
+
   try {
-    const activity = await Activity.create(activityData);
+    const activity = await Activity.create(activityData); // step 4
     res.status(200).send(activity);
-  } catch (err) {
-    res.status(500).send({ err });
+  } catch ({ message }) {
+    res.status(500).send({ message });
   }
+
+
 });
+
 
 //Show 1 Activity by activity ID
 router.get("/id/:id", authenticateToken, async (req, res) => {
@@ -121,6 +150,7 @@ router.put("/id/:id", authenticateToken, async (req, res) => {
   }
 });
 
+
 //Delete Activity
 router.delete("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
@@ -136,9 +166,12 @@ router.delete("/id/:id", authenticateToken, async (req, res) => {
   }
 });
 
+
 // Get Activities based on Project Id
 router.get("/projects", authenticateToken, async (req, res) => {
-  const query = req.query;
+  const query = req.query; //project ID
+  // find from Project(truth) -  vendor and client ID
+  // comppare the ID to payload userID
   try {
     const activitiesFound = await Activity.find({ projectId: query.projectId });
     res.send(activitiesFound);
