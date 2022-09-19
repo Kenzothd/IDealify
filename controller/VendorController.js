@@ -8,6 +8,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
 const authenticateUser = require("../middleware/authenticateUser");
+const authenticateToken = require("../middleware/authenticateToken");
 
 // const multerStorage = multer.memoryStorage(); // image upload trial
 // const upload = multer({ storage: multerStorage }); // image upload trial
@@ -167,7 +168,6 @@ router.post("/login", async (req, res) => {
     const userType = "vendor";
     const payload = { userId, username, userType };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
-    console.log(token);
     res.status(200).send({ msg: "login", token });
   } else {
     res.status(400).send({ error: "Wrong Password" });
@@ -175,25 +175,21 @@ router.post("/login", async (req, res) => {
 });
 
 //* GET VENDOR BY ID
-router.get(
-  "/id/:id",
-  authenticateToken,
-  authenticateUser("vendor"),
-  async (req, res) => {
-    const { data } = req;
-    if (data.userType === "vendor") {
-      const { id } = req.params;
-      try {
-        const vendor = await Vendor.findById(id);
-        res.status(200).send(vendor);
-      } catch (err) {
-        res.status(500).send({ err });
-      }
-    } else {
-      res.status(403).send({ error: "You are not an authorized vendor" });
+
+router.get("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
+  const { payload } = req
+  if (payload.userType === 'vendor') {
+    const { id } = req.params;
+    try {
+      const vendor = await Vendor.findById(id);
+      res.status(200).send(vendor);
+    } catch (err) {
+      res.status(500).send({ err });
     }
+  } else {
+    res.status(403).send({ error: "You are not an authorized vendor" });
   }
-);
+});
 
 //* CREATE VENDOR
 router.post("/", async (req, res) => {
