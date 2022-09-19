@@ -72,9 +72,9 @@ router.get("/", authenticateToken, async (req, res) => {
     // const payload = jwt.verify(token, SECRET);
     // const vendorID = payload.userId;
     // console.log(vendorID);
-    const { data } = req
-    const userID = data.userType + "ID"
-    const allProjects = await Project.find({ [userID]: data.userId });
+    const { payload } = req;
+    const userID = payload.userType + "ID";
+    const allProjects = await Project.find({ [userID]: payload.userId });
 
     if (allProjects.length === 0) {
       res.status(500).send({ error: "No Projects Found" });

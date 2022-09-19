@@ -109,31 +109,41 @@ router.get("/seed", async (req, res) => {
 });
 
 //* SHOW ALL VENDORS
-router.get("/", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  try {
-    const allVendors = await Vendor.find();
-    res.status(200).send(allVendors);
-  } catch (err) {
-    res.status(500).send({ err });
+router.get(
+  "/",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    try {
+      const allVendors = await Vendor.find();
+      res.status(200).send(allVendors);
+    } catch (err) {
+      res.status(500).send({ err });
+    }
   }
-});
+);
 
 //* Find by Name
-router.get("/findByName/:name", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { name } = req.params;
-  const vendor = await Vendor.find({ username: name });
-  if (vendor.length === 0) {
-    res.status(200).send([]);
-  } else {
-    res.status(200).send(vendor);
+router.get(
+  "/findByName/:name",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { name } = req.params;
+    const vendor = await Vendor.find({ username: name });
+    if (vendor.length === 0) {
+      res.status(200).send([]);
+    } else {
+      res.status(200).send(vendor);
+    }
   }
-});
+);
 
 //* Find by Registration Number
 router.get(
   "/findByRegistrationNum/:num",
   authenticateToken,
-  authenticateUser('vendor'),
+  authenticateUser("vendor"),
   async (req, res) => {
     const { num } = req.params;
     const vendor = await Vendor.find({ registrationNumber: num });
@@ -154,7 +164,7 @@ router.post("/login", async (req, res) => {
   } else if (bcrypt.compareSync(password, vendor.password)) {
     const userId = vendor._id; //098776665
     const username = vendor.username; // mazryu
-    const userType = 'vendor'
+    const userType = "vendor";
     const payload = { userId, username, userType };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
     console.log(token);
@@ -164,23 +174,26 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
 //* GET VENDOR BY ID
-router.get("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { data } = req
-  if (data.userType === 'vendor') {
-    const { id } = req.params;
-    try {
-      const vendor = await Vendor.findById(id);
-      res.status(200).send(vendor);
-    } catch (err) {
-      res.status(500).send({ err });
+router.get(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { payload } = req;
+    if (payload.userType === "vendor") {
+      const { id } = req.params;
+      try {
+        const vendor = await Vendor.findById(id);
+        res.status(200).send(vendor);
+      } catch (err) {
+        res.status(500).send({ err });
+      }
+    } else {
+      res.status(403).send({ error: "You are not an authorized vendor" });
     }
-  } else {
-    res.status(403).send({ error: 'You are not an authorized vendor' });
   }
-
-});
+);
 
 //* CREATE VENDOR
 router.post("/", async (req, res) => {
@@ -229,24 +242,29 @@ router.post("/", async (req, res) => {
 });
 
 //* UPDATE VENDOR
-router.put("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { id } = req.params;
-  const vendor = req.body;
-  console.log("body", vendor);
-  try {
-    const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
-      new: true,
-    });
-    console.log("return vendor", updatedVendor);
-    if (updatedVendor === null) {
-      res.status(400).send({ error: "No Vendor found" });
-    } else {
-      res.send(updatedVendor);
+router.put(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { id } = req.params;
+    const vendor = req.body;
+    console.log("body", vendor);
+    try {
+      const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
+        new: true,
+      });
+      console.log("return vendor", updatedVendor);
+      if (updatedVendor === null) {
+        res.status(400).send({ error: "No Vendor found" });
+      } else {
+        res.send(updatedVendor);
+      }
+    } catch (error) {
+      res.status(400).send({ error });
     }
-  } catch (error) {
-    res.status(400).send({ error });
   }
-});
+);
 
 //image update trial
 // router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
@@ -287,14 +305,19 @@ router.put("/id/:id", authenticateToken, authenticateUser('vendor'), async (req,
 // });
 
 //* DELETE VENDOR
-router.delete("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deletedVendor = await Vendor.findByIdAndDelete(id);
-    res.status(200).send(deletedVendor);
-  } catch (error) {
-    res.status(500).send({ error });
+router.delete(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const deletedVendor = await Vendor.findByIdAndDelete(id);
+      res.status(200).send(deletedVendor);
+    } catch (error) {
+      res.status(500).send({ error });
+    }
   }
-});
+);
 
 module.exports = router;

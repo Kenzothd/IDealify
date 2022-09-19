@@ -37,25 +37,35 @@ router.get("/seed", async (req, res) => {
 });
 
 //* Show all Clients
-router.get("/", authenticateToken, authenticateUser('client'), async (req, res) => {
-  try {
-    const allClients = await Client.find({});
-    res.status(200).send(allClients);
-  } catch (err) {
-    res.status(500).send({ err });
-  }
-});
+// router.get(
+//   "/",
+//   authenticateToken,
+//   authenticateUser("vendor"),
+//   async (req, res) => {
+//     try {
+//       const allClients = await Client.find({});
+//       res.status(200).send(allClients);
+//     } catch (err) {
+//       res.status(500).send({ err });
+//     }
+//   }
+// );
 
 //* Find by Name
-router.get("/findByName/:name", authenticateToken, authenticateUser('client'), async (req, res) => {
-  const { name } = req.params;
-  const client = await Client.find({ username: name });
-  if (client.length === 0) {
-    res.status(200).send([]);
-  } else {
-    res.status(200).send(client);
+router.get(
+  "/findByName/:name",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { name } = req.params;
+    const client = await Client.find({ username: name });
+    if (client.length === 0) {
+      res.status(200).send([]);
+    } else {
+      res.status(200).send(client);
+    }
   }
-});
+);
 
 //Client Login
 router.post("/login", async (req, res) => {
@@ -68,7 +78,7 @@ router.post("/login", async (req, res) => {
   } else if (bcrypt.compareSync(password, client.password)) {
     const userId = client._id;
     const username = client.username;
-    const userType = 'client'
+    const userType = "client";
     const payload = { userId, username, userType };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
     res.status(200).send({ msg: "login", token });
@@ -105,47 +115,62 @@ router.post("/", async (req, res) => {
 });
 
 //Show 1 Client
-router.get("/id/:id", authenticateToken, authenticateUser('client'), async (req, res) => {
-  const { id } = req.params;
-  try {
-    const newClient = await Client.findById(id);
-    res.status(200).send(newClient);
-  } catch (err) {
-    res.status(400).send({ error: "No client found!" });
+router.get(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("client"),
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const newClient = await Client.findById(id);
+      res.status(200).send(newClient);
+    } catch (err) {
+      res.status(400).send({ error: "No client found!" });
+    }
   }
-});
+);
 
 //Update Client
-router.put("/id/:id", authenticateToken, authenticateUser('client'), async (req, res) => {
-  const { id } = req.params;
-  const clientUpdates = req.body;
-  try {
-    const updatedClient = await Client.findByIdAndUpdate(id, clientUpdates, {
-      new: true,
-    });
-    if (updatedClient === null) {
-      res.status(400).send({ error: "No client found!" });
-    } else {
-      res.status(200).send(updatedClient);
+router.put(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("client"),
+  async (req, res) => {
+    const { id } = req.params;
+    const clientUpdates = req.body;
+    try {
+      const updatedClient = await Client.findByIdAndUpdate(id, clientUpdates, {
+        new: true,
+      });
+      if (updatedClient === null) {
+        res.status(400).send({ error: "No client found!" });
+      } else {
+        res.status(200).send(updatedClient);
+      }
+    } catch (err) {
+      res.status(500).send({ err });
     }
-  } catch (err) {
-    res.status(500).send({ err });
   }
-});
+);
 
 //Delete Client
-router.delete("/id/:id", authenticateToken, authenticateUser('client'), async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deleteClient = await Client.findByIdAndDelete(id);
-    if (deleteClient === null) {
-      res.status(400).send({ error: "No client found!" });
-    } else {
-      res.status(200).send(deleteClient);
+router.delete(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("client"),
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const deleteClient = await Client.findByIdAndDelete(id);
+      if (deleteClient === null) {
+        res.status(400).send({ error: "No client found!" });
+      } else {
+        res.status(200).send(deleteClient);
+      }
+    } catch (err) {
+      res.status(500).send({ err });
     }
-  } catch (err) {
-    res.status(500).send({ err });
   }
-});
+);
 
 module.exports = router;
