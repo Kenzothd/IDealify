@@ -157,7 +157,6 @@ router.post("/login", async (req, res) => {
     const userType = 'vendor'
     const payload = { userId, username, userType };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
-    console.log(token);
     res.status(200).send({ msg: "login", token });
   } else {
     res.status(400).send({ error: "Wrong Password" });
@@ -167,8 +166,8 @@ router.post("/login", async (req, res) => {
 
 //* GET VENDOR BY ID
 router.get("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { data } = req
-  if (data.userType === 'vendor') {
+  const { payload } = req
+  if (payload.userType === 'vendor') {
     const { id } = req.params;
     try {
       const vendor = await Vendor.findById(id);

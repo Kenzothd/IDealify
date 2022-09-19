@@ -14,8 +14,8 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorID: "63270748e37810b7d3818483",
-      clientID: "6319681c3cea7b50135ee0ce",
+      vendorId: "632449ff2e3c757cbafebab3",
+      clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
       projectStartDate: new Date(),
@@ -27,8 +27,8 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorID: "63270748e37810b7d3818483",
-      clientID: "6319681c3cea7b50135ee0ce",
+      vendorId: "632449ff2e3c757cbafebab3",
+      clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
       projectStartDate: new Date(),
@@ -40,8 +40,8 @@ router.get("/seed", async (req, res) => {
       designTheme: "Scandinavian",
     },
     {
-      vendorID: "63270429a292e843af504f30",
-      clientID: "6319681c3cea7b50135ee0ce",
+      vendorId: "63270429a292e843af504f30",
+      clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
       projectStartDate: new Date(),
@@ -66,15 +66,11 @@ router.get("/seed", async (req, res) => {
 
 //* Show all Projects(Index Route)
 router.get("/", authenticateToken, async (req, res) => {
-  // const bearer = req.get("Authorization");
-  // const token = bearer.split(" ")[1];
+
   try {
-    // const payload = jwt.verify(token, SECRET);
-    // const vendorID = payload.userId;
-    // console.log(vendorID);
-    const { data } = req
-    const userID = data.userType + "ID"
-    const allProjects = await Project.find({ [userID]: data.userId });
+    const { payload } = req
+    const userID = payload.userType + "Id"
+    const allProjects = await Project.find({ [userID]: payload.userId });
 
     if (allProjects.length === 0) {
       res.status(500).send({ error: "No Projects Found" });
