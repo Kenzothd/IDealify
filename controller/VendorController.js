@@ -8,6 +8,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
 const authenticateUser = require("../middleware/authenticateUser");
+const authenticateToken = require("../middleware/authenticateToken");
 
 // const multerStorage = multer.memoryStorage(); // image upload trial
 // const upload = multer({ storage: multerStorage }); // image upload trial
@@ -167,7 +168,6 @@ router.post("/login", async (req, res) => {
     const userType = "vendor";
     const payload = { userId, username, userType };
     const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
-    console.log(token);
     res.status(200).send({ msg: "login", token });
   } else {
     res.status(400).send({ error: "Wrong Password" });
@@ -194,6 +194,7 @@ router.get(
     }
   }
 );
+
 
 //* CREATE VENDOR
 router.post("/", async (req, res) => {
@@ -269,10 +270,31 @@ router.put(
 //image update trial
 // router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
 //   const { id } = req.params;
+//   const vendor = req.body;
+//   console.log("body", vendor);
+//   try {
+//     const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
+//       new: true,
+//     });
+//     console.log("return vendor", updatedVendor);
+//     if (updatedVendor === null) {
+//       res.status(400).send({ error: "No Vendor found" });
+//     } else {
+//       res.send(updatedVendor);
+//     }
+//   } catch (error) {
+//     res.status(400).send({ error });
+//   }
+// });
+
+//image update trial
+// router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
+//   const { id } = req.params;
 //   const body = req.body;
 //   // const image = req.file;
 //   console.log(body);
-//   // console.log(req.file.filename);
+//   console.log(req.file);
+//   console.log(req.file.filename);
 
 //   const vendor = {
 //     email: body.email,
@@ -301,8 +323,8 @@ router.put(
 //     }
 //   } catch (error) {
 //     res.status(400).send({ error });
-//   }
-// });
+//   }}
+// );
 
 //* DELETE VENDOR
 router.delete(

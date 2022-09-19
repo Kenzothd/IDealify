@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-  vendorID: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
-  clientID: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
+  vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
+  clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
   projectName: { type: String, required: true },
   housingType: {
     type: String,

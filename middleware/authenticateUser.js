@@ -8,6 +8,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 
 // VERIFICATION MIDDLEWARE
 const authenticateUser = (user) => (req, res, next) => {
+
   const { payload } = req
   if (payload.userType === user) {
     next()
