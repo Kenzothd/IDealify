@@ -196,7 +196,7 @@ router.get("/id/:id", authenticateToken, async (req, res) => {
 });
 
 //* CREATE VENDOR
-router.post("/", authenticateToken, async (req, res) => {
+router.post("/", async (req, res) => {
   const newVendor = req.body;
   newVendor.password = bcrypt.hashSync(newVendor.password, 10);
   console.log(newVendor);

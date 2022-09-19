@@ -57,7 +57,7 @@ router.get("/findByName/:name", authenticateToken, async (req, res) => {
 });
 
 //Client Login
-router.post("/login", authenticateToken, async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   const client = await Client.findOne({ username });
@@ -76,7 +76,7 @@ router.post("/login", authenticateToken, async (req, res) => {
 });
 
 //* Create Client
-router.post("/", authenticateToken, async (req, res) => {
+router.post("/", async (req, res) => {
   const newClient = req.body;
   newClient.password = bcrypt.hashSync(newClient.password, 10);
   // console.log(clientData)
