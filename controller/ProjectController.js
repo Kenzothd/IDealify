@@ -15,7 +15,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorId: "632449ff2e3c757cbafebab3",
+      vendorId: "63286fe5fb2e43bb8961973f",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -28,7 +28,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "632449ff2e3c757cbafebab3",
+      vendorId: "63286fe5fb2e43bb8961973f",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -41,7 +41,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Scandinavian",
     },
     {
-      vendorId: "63270429a292e843af504f30",
+      vendorId: "63286fe5fb2e43bb8961973f",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
@@ -67,10 +67,9 @@ router.get("/seed", async (req, res) => {
 
 //* Show all Projects by User(Index Route)
 router.get("/", authenticateToken, async (req, res) => {
-
   try {
-    const { payload } = req
-    const userID = payload.userType + "Id"
+    const { payload } = req;
+    const userID = payload.userType + "Id";
     const allProjects = await Project.find({ [userID]: payload.userId });
 
     if (allProjects.length === 0) {
@@ -84,40 +83,41 @@ router.get("/", authenticateToken, async (req, res) => {
 });
 
 //* Create Route
-router.post("/", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const newProject = req.body;
-  const { vendorId } = newProject
+router.post(
+  "/",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const newProject = req.body;
+    const { vendorId } = newProject;
 
-  const { userId } = req.payload
+    const { userId } = req.payload;
 
-
-  if (vendorId === userId) {
-    try {
-      const createdProject = await Project.create(newProject);
-      res.status(201).send(createdProject);
-    } catch (err) {
-      res.status(500).send({ err });
+    if (vendorId === userId) {
+      try {
+        const createdProject = await Project.create(newProject);
+        res.status(201).send(createdProject);
+      } catch (err) {
+        res.status(500).send({ err });
+      }
+    } else {
+      res.status(401).send({ msg: "Invalid vendor" });
     }
-  } else {
-    res.status(401).send({ msg: "Invalid vendor" });
   }
-
-});
-
+);
 
 //* Show 1 project by User
 router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
-  console.log(id)
+  console.log(id);
 
-  const { payload } = req
-  const userID = payload.userType + "Id"
-
+  const { payload } = req;
+  const userID = payload.userType + "Id";
 
   try {
     const project = await Project.find({
       [userID]: payload.userId,
-      "_id": id
+      _id: id,
     });
     res.status(200).send(project);
   } catch (err) {
@@ -125,57 +125,60 @@ router.get("/id/:id", authenticateToken, async (req, res) => {
   }
 });
 
-
-
 //* Update Route
-router.put("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { id } = req.params;
-  const project = req.body;
-  const { vendorId } = project
+router.put(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { id } = req.params;
+    const project = req.body;
+    const { vendorId } = project;
 
-  const { userId } = req.payload
+    const { userId } = req.payload;
 
-
-  if (vendorId === userId) {
-    try {
-      const newProject = await Project.findByIdAndUpdate(id, project,
-        { new: 1, });
-      res.status(200).send(newProject);
-    } catch (err) {
-      res.status(500).send({ err });
+    if (vendorId === userId) {
+      try {
+        const newProject = await Project.findByIdAndUpdate(id, project, {
+          new: 1,
+        });
+        res.status(200).send(newProject);
+      } catch (err) {
+        res.status(500).send({ err });
+      }
+    } else {
+      res.status(401).send({ msg: "Invalid vendor" });
     }
-
-  } else {
-    res.status(401).send({ msg: "Invalid vendor" });
   }
-
-});
-
-
+);
 
 //* Delete Route
-router.delete("/id/:id", authenticateToken, authenticateUser('vendor'), async (req, res) => {
-  const { id } = req.params;
+router.delete(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { id } = req.params;
 
-  const { userId } = req.payload
+    const { userId } = req.payload;
 
-  const project = await Project.find({
-    vendorId: userId,
-    "_id": id
-  });
+    const project = await Project.find({
+      vendorId: userId,
+      _id: id,
+    });
 
-  console.log(project)
-  if (project === undefined) {
-    res.status(401).send({ msg: "Project do not belong to vendor" });
-  } else {
-    try {
-      const deletedProject = await Project.findByIdAndDelete(id);
-      res.status(200).send(deletedProject);
-    } catch (err) {
-      res.status(500).send({ err });
+    console.log(project);
+    if (project === undefined) {
+      res.status(401).send({ msg: "Project do not belong to vendor" });
+    } else {
+      try {
+        const deletedProject = await Project.findByIdAndDelete(id);
+        res.status(200).send(deletedProject);
+      } catch (err) {
+        res.status(500).send({ err });
+      }
     }
   }
-
-});
+);
 
 module.exports = router;
