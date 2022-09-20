@@ -15,8 +15,8 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorId: "6329310ed3dd3108e5b6ac9e",
-      clientId: "6319681c3cea7b50135ee0ce",
+      vendorId: "63293ba2cfeb3847f7c751ae",
+      clientId: "63295c7df69465d5dd867060",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
       projectStartDate: new Date(),
@@ -24,12 +24,13 @@ router.get("/seed", async (req, res) => {
       projectStatus: "In Progress",
       uploadedFiles: ["url", "url", "url"],
       description: "Modern theme",
-      projectProgress: ["6319681c3cea7b50135ee0ce"],
       designTheme: "Modern",
+      totalCosting: 111,
+      comments: "Moden",
     },
     {
-      vendorId: "6329310ed3dd3108e5b6ac9e",
-      clientId: "6319681c3cea7b50135ee0ce",
+      vendorId: "63293ba2cfeb3847f7c751ae",
+      clientId: "63295c7df69465d5dd867060",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
       projectStartDate: new Date(),
@@ -37,12 +38,13 @@ router.get("/seed", async (req, res) => {
       projectStatus: "Completed",
       uploadedFiles: ["url", "url", "url"],
       description: "Scandinavian theme",
-      projectProgress: ["6319681c3cea7b50135ee0ce"],
       designTheme: "Scandinavian",
+      totalCosting: 1000,
+      comments: "Scanfla",
     },
     {
-      vendorId: "63286fe5fb2e43bb8961973f",
-      clientId: "6319681c3cea7b50135ee0ce",
+      vendorId: "63293ba2cfeb3847f7c751ae",
+      clientId: "63295c7df69465d5dd867060",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
       projectStartDate: new Date(),
@@ -50,8 +52,9 @@ router.get("/seed", async (req, res) => {
       projectStatus: "Upcoming",
       uploadedFiles: ["url", "url", "url"],
       description: "Black & white theme",
-      projectProgress: ["6319681c3cea7b50135ee0ce"],
       designTheme: "Black & White",
+      totalCosting: 100,
+      comments: "Michael Jackson",
     },
   ];
 

@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-  vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
-  clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
+  vendorId: { type: String, required: true },
+  clientId: { type: String, required: true },
   projectName: { type: String, required: true },
   housingType: {
     type: String,
@@ -33,7 +33,7 @@ const projectSchema = new mongoose.Schema({
   },
   uploadedFiles: [{ type: String, required: true }],
   description: String,
-  // projectProgress: [{ type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
+  //   projectProgress: [{type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
   // review:{type: mongoose.Schema.Types.ObjectId, ref: "Review" },
   designTheme: {
     type: String,
@@ -63,6 +63,8 @@ const projectSchema = new mongoose.Schema({
       "Others",
     ],
   },
+  totalCosting: Number,
+  comments: String,
 });
 
 const Project = mongoose.model("Project", projectSchema);

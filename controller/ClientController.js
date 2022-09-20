@@ -51,27 +51,23 @@ router.get("/seed", async (req, res) => {
 //   }
 // );
 
-//* Find by Name
-router.get(
-  "/findByName/:name",
-  authenticateToken,
-  authenticateUser("vendor"),
-  async (req, res) => {
-    const { name } = req.params;
-    const client = await Client.find({ username: name });
-    if (client.length === 0) {
-      res.status(200).send([]);
-    } else {
-      res.status(200).send(client);
-    }
+//* Find by Username(Yup validate unique client username)
+router.get("/findByName/:name", authenticateToken, async (req, res) => {
+  const { name } = req.params;
+  const client = await Client.find({ username: name });
+  if (client.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(client);
   }
-);
+});
 
 //Client Login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   const client = await Client.findOne({ username });
+  console.log(client);
 
   if (client === null) {
     res.status(400).send({ error: "Client Not Found" });
