@@ -7,29 +7,29 @@ const bcrypt = require("bcrypt");
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
 const authenticateUser = require("../middleware/authenticateUser");
-const img = require("");
+const authenticateToken = require("../middleware/authenticateToken");
 
 // const multerStorage = multer.memoryStorage(); // image upload trial
 // const upload = multer({ storage: multerStorage }); // image upload trial
 
-router.use(
-  "../src/assets/uploads",
-  express.static(path.join(__dirname, "uploads"))
-);
+// router.use(
+//   "../src/assets/uploads",
+//   express.static(path.join(__dirname, "uploads"))
+// );
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "../src/assets/uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      new Date().toISOString().replace(/:/g, "-") + "-" + file.fieldname
-    );
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "../src/assets/uploads");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       new Date().toISOString().replace(/:/g, "-") + "-" + file.fieldname
+//     );
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 //config
 const SECRET = process.env.SECRET ?? "KFC";
@@ -48,7 +48,6 @@ router.get("/seed", async (req, res) => {
       incorporationDate: new Date("2022-03-25"),
       registeredOfficeAddress: "123 Admin Road Singapore 123456",
       uploadedFiles: "url",
-      trackedProjects: [],
       brandSummary: "some say best in batam",
     },
     {
@@ -62,7 +61,6 @@ router.get("/seed", async (req, res) => {
       incorporationDate: new Date("2021-05-25"),
       registeredOfficeAddress: "123 Faith Road Singapore 123456",
       uploadedFiles: "url",
-      trackedProjects: [],
       brandSummary: "some say best in johor",
     },
     {
@@ -76,7 +74,6 @@ router.get("/seed", async (req, res) => {
       incorporationDate: new Date("2020-10-27"),
       registeredOfficeAddress: "123 Clovis Road Singapore 123456",
       uploadedFiles: "url",
-      trackedProjects: [],
       brandSummary: "some say best in korea",
     },
     {
@@ -90,7 +87,6 @@ router.get("/seed", async (req, res) => {
       incorporationDate: new Date(2022, 05, 14),
       registeredOfficeAddress: "123 Kenzo Road Singapore 123456",
       uploadedFiles: "url",
-      trackedProjects: [],
       brandSummary: "some say best in japan",
     },
   ];
@@ -123,23 +119,18 @@ router.get(
   }
 );
 
-//* Find by Name
-router.get(
-  "/findByName/:name",
-  authenticateToken,
-  authenticateUser("vendor"),
-  async (req, res) => {
-    const { name } = req.params;
-    const vendor = await Vendor.find({ username: name });
-    if (vendor.length === 0) {
-      res.status(200).send([]);
-    } else {
-      res.status(200).send(vendor);
-    }
+//* Find by Username (Yup validate unique  vendor username, we should limit the return KIV)
+router.get("/findByName/:name", authenticateToken, async (req, res) => {
+  const { name } = req.params;
+  const vendor = await Vendor.find({ username: name });
+  if (vendor.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(vendor);
   }
-);
+});
 
-//* Find by Registration Number
+//* Find by Registration Number (Yup validation for vendor sign up acra number)
 router.get(
   "/findByRegistrationNum/:num",
   authenticateToken,
@@ -241,55 +232,55 @@ router.post("/", async (req, res) => {
 });
 
 //* UPDATE VENDOR
-// router.put(
-//   "/id/:id",
-//   authenticateToken,
-//   authenticateUser("vendor"),
-//   async (req, res) => {
-//     const { id } = req.params;
-//     const vendor = req.body;
-//     console.log("body", vendor);
-//     try {
-//       const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
-//         new: true,
-//       });
-//       console.log("return vendor", updatedVendor);
-//       if (updatedVendor === null) {
-//         res.status(400).send({ error: "No Vendor found" });
-//       } else {
-//         res.send(updatedVendor);
-//       }
-//     } catch (error) {
-//       res.status(400).send({ error });
-//     }
-//   }
-// );
+router.put(
+  "/id/:id",
+  authenticateToken,
+  authenticateUser("vendor"),
+  async (req, res) => {
+    const { id } = req.params;
+    const vendor = req.body;
+    console.log("body", vendor);
+    try {
+      const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
+        new: true,
+      });
+      console.log("return vendor", updatedVendor);
+      if (updatedVendor === null) {
+        res.status(400).send({ error: "No Vendor found" });
+      } else {
+        res.send(updatedVendor);
+      }
+    } catch (error) {
+      res.status(400).send({ error });
+    }
+  }
+);
 
 //image update trial (only file upload with fileSchema)
-router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
-  const { id } = req.params;
-  const vendor = req.body; //get the file img here
-  console.log("body", vendor);
+// router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
+//   const { id } = req.params;
+//   const vendor = req.body; //get the file img here
+//   console.log("body", vendor);
 
-  const file = {
-    img:
-      req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename,
-  };
+//   const file = {
+//     img:
+//       req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename,
+//   };
 
-  try {
-    const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
-      new: true,
-    });
-    console.log("return vendor", updatedVendor);
-    if (updatedVendor === null) {
-      res.status(400).send({ error: "No Vendor found" });
-    } else {
-      res.send(updatedVendor);
-    }
-  } catch (error) {
-    res.status(400).send({ error });
-  }
-});
+//   try {
+//     const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
+//       new: true,
+//     });
+//     console.log("return vendor", updatedVendor);
+//     if (updatedVendor === null) {
+//       res.status(400).send({ error: "No Vendor found" });
+//     } else {
+//       res.send(updatedVendor);
+//     }
+//   } catch (error) {
+//     res.status(400).send({ error });
+//   }
+// });
 
 //image update trial
 // router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
