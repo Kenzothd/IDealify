@@ -132,7 +132,7 @@ router.get(
     const { name } = req.params;
     const vendor = await Vendor.find({ username: name });
     if (vendor.length === 0) {
-      res.status(200).send([]);
+      res.status(200).send(vendor);
     } else {
       res.status(200).send(vendor);
     }

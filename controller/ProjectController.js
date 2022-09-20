@@ -15,7 +15,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorId: "63286fe5fb2e43bb8961973f",
+      vendorId: "6329310ed3dd3108e5b6ac9e",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -28,7 +28,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "63270748e37810b7d3818483",
+      vendorId: "6329310ed3dd3108e5b6ac9e",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -84,20 +84,21 @@ router.get("/", authenticateToken, async (req, res) => {
 
 //* Create Route
 router.post(
-  "/",
+  "/vendor/:vendorId",
   authenticateToken,
   authenticateUser("vendor"),
   async (req, res) => {
     const newProject = req.body;
-    const { vendorId } = newProject;
-
+    const { vendorId } = req.params;
     const { userId } = req.payload;
-
+    console.log(typeof vendorId);
+    console.log(typeof userId);
     if (vendorId === userId) {
       try {
         const createdProject = await Project.create(newProject);
         res.status(201).send(createdProject);
       } catch (err) {
+        console.log("error here");
         res.status(500).send({ err });
       }
     } else {
