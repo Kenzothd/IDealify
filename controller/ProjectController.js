@@ -15,7 +15,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorId: "632449ff2e3c757cbafebab3",
+      vendorId: "63270748e37810b7d3818483",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -28,7 +28,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "632449ff2e3c757cbafebab3",
+      vendorId: "63270748e37810b7d3818483",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -107,7 +107,7 @@ router.post(
   }
 );
 
-//* Show 1 project by User
+//* Show 1 project by Id
 router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   console.log(id);

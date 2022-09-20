@@ -11,7 +11,7 @@ const authenticateVendorProject = require("../middleware/authenticateVendorProje
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "63287b6abd1f48cde993272e",
+      projectId: "63291da4a0694d59005bfbe3",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Hacking of walls",
@@ -23,7 +23,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "63287b6abd1f48cde993272e",
+      projectId: "63291da4a0694d59005bfbe3",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Painting of Toilet",
@@ -117,20 +117,20 @@ router.post(
   }
 );
 
-// //Show 1 Activity by activity ID (KIV)
-// router.get("/id/:id", authenticateToken, async (req, res) => {
-//   const { id } = req.params;
-//   console.log(req.data);
-//   try {
-//     const newActivity = await Activity.findById(id);
-//     if (newActivity === null) {
-//       res.status(400).send({ error: "No activity found!" });
-//     }
-//     res.status(200).send(newActivity);
-//   } catch (err) {
-//     res.status(500).send({ err });
-//   }
-// });
+//Show 1 Activity by activity ID
+router.get("/id/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  console.log(req.data);
+  try {
+    const newActivity = await Activity.findById(id);
+    if (newActivity === null) {
+      res.status(400).send({ error: "No activity found!" });
+    }
+    res.status(200).send(newActivity);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
 //Update Activity
 router.put(
