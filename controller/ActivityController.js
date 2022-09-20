@@ -11,7 +11,7 @@ const authenticateVendorProject = require("../middleware/authenticateVendorProje
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "63291da4a0694d59005bfbe3",
+      projectId: "6329359c300c15062db36608",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Hacking of walls",
@@ -23,7 +23,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "63291da4a0694d59005bfbe3",
+      projectId: "6329359c300c15062db36608",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Painting of Toilet",
@@ -35,7 +35,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "63287b6abd1f48cde993272e",
+      projectId: "6329359c300c15062db36608",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Install toilet piping",
@@ -46,7 +46,7 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
-      projectId: "632576885b2ba557950efa87",
+      projectId: "6329359c300c15062db36608",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421af",
       activityTitle: "Install toilet piping",
@@ -57,7 +57,7 @@ router.get("/seed", async (req, res) => {
       status: "In Progress",
     },
     {
-      projectId: "632576885b2ba557950efa87",
+      projectId: "6329359c300c15062db36608",
       // vendorId: "632449ff2e3c757cbafebab4",
       // clientId: "6323d7b309953c1e202421af",
       activityTitle: "Install toilet piping",

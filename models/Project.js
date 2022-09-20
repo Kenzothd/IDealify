@@ -33,7 +33,7 @@ const projectSchema = new mongoose.Schema({
   },
   uploadedFiles: [{ type: String, required: true }],
   description: String,
-  projectProgress: [{ type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
+  // projectProgress: [{ type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
   // review:{type: mongoose.Schema.Types.ObjectId, ref: "Review" },
   designTheme: {
     type: String,
@@ -60,7 +60,7 @@ const projectSchema = new mongoose.Schema({
       "Hollywood Regency",
       "Modern farmhouse",
       "Black & White",
-      "Others"
+      "Others",
     ],
   },
 });
