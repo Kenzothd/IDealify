@@ -28,7 +28,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "63286fe5fb2e43bb8961973f",
+      vendorId: "63270748e37810b7d3818483",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -106,7 +106,7 @@ router.post(
   }
 );
 
-//* Show 1 project by User
+//* Show 1 project by Id
 router.get("/id/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   console.log(id);

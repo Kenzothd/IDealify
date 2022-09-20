@@ -23,7 +23,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6329187ac7b54daddbfe5cf0",
+      projectId: "63291da4a0694d59005bfbe3",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
       activityTitle: "Painting of Toilet",
@@ -101,7 +101,6 @@ router.post(
   async (req, res) => {
     const activityData = req.body;
     const { projectId } = activityData;
-
     const { userId } = req.payload;
 
     const createActivity = async () => {
@@ -113,24 +112,25 @@ router.post(
       }
     };
 
-    authenticateVendorProject(projectId, userId, createActivity);
+    authenticateVendorProject(projectId, userId, req, res, createActivity);
   }
 );
 
-// //Show 1 Activity by activity ID (KIV)
-// router.get("/id/:id", authenticateToken, async (req, res) => {
-//   const { id } = req.params;
-//   console.log(req.data);
-//   try {
-//     const newActivity = await Activity.findById(id);
-//     if (newActivity === null) {
-//       res.status(400).send({ error: "No activity found!" });
-//     }
-//     res.status(200).send(newActivity);
-//   } catch (err) {
-//     res.status(500).send({ err });
-//   }
-// });
+//Show 1 Activity by activity ID
+router.get("/id/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  console.log(req.data);
+  try {
+    const newActivity = await Activity.findById(id);
+    if (newActivity === null) {
+      res.status(400).send({ error: "No activity found!" });
+    }
+    res.status(200).send(newActivity);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
 
 //Update Activity
 router.put(
@@ -141,7 +141,6 @@ router.put(
     const { id } = req.params;
     const activityUpdates = req.body;
     const { projectId } = activityUpdates;
-
     const { userId } = req.payload;
 
     const updatedActivity = async () => {
@@ -161,7 +160,9 @@ router.put(
       }
     };
 
-    authenticateVendorProject(projectId, userId, updatedActivity);
+
+    authenticateVendorProject(projectId, userId, req, res, updatedActivity);
+
   }
 );
 
@@ -194,7 +195,9 @@ router.delete(
       res.status(404).send({ msg: "Activity not found" });
     } else {
       const { projectId } = activity;
-      authenticateVendorProject(projectId, userId, deleteActivity);
+
+      authenticateVendorProject(projectId, userId, req, res, deleteActivity);
+
     }
   }
 );
@@ -206,9 +209,7 @@ router.get(
   authenticateUser("vendor"),
   async (req, res) => {
     const { projectId } = req.query;
-
     const { userId } = req.payload;
-
     const getActivitiesByProject = async () => {
       try {
         const activitiesFound = await Activity.find({ projectId });
@@ -218,7 +219,14 @@ router.get(
       }
     };
 
-    authenticateVendorProject(projectId, userId, getActivitiesByProject);
+    authenticateVendorProject(
+      projectId,
+      userId,
+      req,
+      res,
+      getActivitiesByProject
+    );
+
   }
 );
 

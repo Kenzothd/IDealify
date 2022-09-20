@@ -4,7 +4,6 @@ const router = express.Router();
 const Vendor = require("../models/Vendor");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const authenticateToken = require("../middleware/authenticateToken");
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
 const authenticateUser = require("../middleware/authenticateUser");
@@ -175,7 +174,6 @@ router.post("/login", async (req, res) => {
 });
 
 //* GET VENDOR BY ID
-
 router.get(
   "/id/:id",
   authenticateToken,
