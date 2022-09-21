@@ -8,14 +8,18 @@ const Client = require("../models/Client");
 const Vendor = require("../models/Vendor");
 const authenticateUser = require("../middleware/authenticateUser");
 
-//config
 const SECRET = process.env.SECRET ?? "KFC";
+
+
+
+
 
 //* Seed Route
 router.get("/seed", async (req, res) => {
+
   const projectSeed = [
     {
-      vendorId: "63293ba2cfeb3847f7c751ae",
+      vendorId: "6329bb5c61f881384442c7c1",
       clientId: "63295c7df69465d5dd867060",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -29,7 +33,7 @@ router.get("/seed", async (req, res) => {
       comments: "Moden",
     },
     {
-      vendorId: "63293ba2cfeb3847f7c751ae",
+      vendorId: "6329bb5c61f881384442c7c1",
       clientId: "63295c7df69465d5dd867060",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -43,7 +47,7 @@ router.get("/seed", async (req, res) => {
       comments: "Scanfla",
     },
     {
-      vendorId: "63293ba2cfeb3847f7c751ae",
+      vendorId: "6329bb5c61f881384442c7c1",
       clientId: "63295c7df69465d5dd867060",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
@@ -184,5 +188,10 @@ router.delete(
     }
   }
 );
+
+
+
+
+
 
 module.exports = router;

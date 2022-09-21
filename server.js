@@ -6,6 +6,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const cloudinary = require("cloudinary");
+const multer = require("multer");
 
 //* controllers
 const ClientController = require("./controller/ClientController");
@@ -17,6 +19,12 @@ const ActivityController = require("./controller/ActivityController");
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 const MONGO_URI = "mongodb://localhost:27017/test";
+const {
+  cloudinaryName,
+  cloudinaryApiKey,
+  cloudinaryApiSecret,
+} = process.env
+
 
 
 mongoose.connection.once("open", () => {
@@ -35,17 +43,68 @@ mongoose.connect(MONGO_URI, {}, () => {
 //*middleware
 app.use(cors());
 app.use(morgan("dev"));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 app.use("/clients", ClientController);
 app.use("/vendors", VendorController);
 app.use("/projects", ProjectController);
 app.use("/activities", ActivityController);
 
+
+
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+cloudinary.v2.config({
+  cloud_name: cloudinaryName,
+  api_key: cloudinaryApiKey,
+  api_secret: cloudinaryApiSecret,
+});
+
+const upload = multer({ storage });
+
+
+
+
 //smoke test
 app.get("/", (req, res) => {
   res.send({ msg: "ID PROJECT STARTED" });
 });
+
+
+
+// upload project images
+app.post("/upload-images", upload.array("uploadedFiles", 10), async (req, res) => {
+
+  try {
+    const imagesFiles = req.files;
+    console.log(imagesFiles)
+    if (!imagesFiles)
+      return res.status(400).send({ msg: "No picture attached!" });
+
+    const multiplePicturePromise = imagesFiles.map((picture) =>
+      cloudinary.v2.uploader.upload(picture.path, {
+        upload_preset: 'Project'
+      })
+    );
+
+    const imageResponses = await Promise.all(multiplePicturePromise);
+    const imageLinks = imageResponses.map((image) => image.url)
+    console.log(imageLinks)
+
+
+    res.status(200).send({ imageLinks });
+  } catch (err) {
+    res.status(500).send({ msg: 'Unable to upload' });
+  }
+});
+
+
+
 
 app.listen(PORT, () => {
   console.log(`express started on ${PORT}`);
