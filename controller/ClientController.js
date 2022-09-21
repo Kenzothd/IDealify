@@ -114,7 +114,7 @@ router.post("/", async (req, res) => {
 router.get(
   "/id/:id",
   authenticateToken,
-  authenticateUser("client"),
+  authenticateUser("vendor"),
   async (req, res) => {
     const { id } = req.params;
     try {
