@@ -11,9 +11,8 @@ const authenticateVendorProject = require("../middleware/authenticateVendorProje
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "6329f24f80d15a170a482e65",
-      // vendorId: "632449ff2e3c757cbafebab3",
-      // clientId: "6323d7b309953c1e202421ae",
+
+      projectId: "6329bbb28f97f222078215fc",
       projectId: "632a8fe7ef91ee630e61bff6",
       activityTitle: "Hacking of walls",
       activityDescription:
@@ -24,7 +23,8 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6329f24f80d15a170a482e65",
+
+      projectId: "6329bbb28f97f222078215fc",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -34,7 +34,9 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "632a8b9067d8e9dbd8f0b2a3",
+
+
+      projectId: "6329bbb28f97f222078215fc",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -43,7 +45,8 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
-      projectId: "6329f24f80d15a170a482e65",
+
+      projectId: "6329bbb28f97f222078215fc",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -52,9 +55,8 @@ router.get("/seed", async (req, res) => {
       status: "In Progress",
     },
     {
-      projectId: "6329f24f80d15a170a482e65",
-      // vendorId: "632449ff2e3c757cbafebab4",
-      // clientId: "6323d7b309953c1e202421af",
+
+      projectId: "6329bbb28f97f222078215fc",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",

@@ -120,7 +120,7 @@ router.get(
 );
 
 //* Find by Username (Yup validate unique  vendor username, we should limit the return KIV)
-router.get("/findByName/:name", authenticateToken, async (req, res) => {
+router.get("/findByName/:name", async (req, res) => {
   const { name } = req.params;
   const vendor = await Vendor.find({ username: name });
   if (vendor.length === 0) {
@@ -132,9 +132,6 @@ router.get("/findByName/:name", authenticateToken, async (req, res) => {
 
 //* Find by Registration Number (Yup validation for vendor sign up acra number)
 router.get(
-  "/findByRegistrationNum/:num",
-  authenticateToken,
-  authenticateUser("vendor"),
   async (req, res) => {
     const { num } = req.params;
     const vendor = await Vendor.find({ registrationNumber: num });
