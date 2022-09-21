@@ -14,6 +14,7 @@ router.get("/seed", async (req, res) => {
       projectId: "6329359c300c15062db36608",
       // vendorId: "632449ff2e3c757cbafebab3",
       // clientId: "6323d7b309953c1e202421ae",
+      projectId: "632a8fe7ef91ee630e61bff6",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -23,9 +24,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6329359c300c15062db36608",
-      // vendorId: "632449ff2e3c757cbafebab3",
-      // clientId: "6323d7b309953c1e202421ae",
+      projectId: "632a8fe7ef91ee630e61bff6",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -35,9 +34,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "6329359c300c15062db36608",
-      // vendorId: "632449ff2e3c757cbafebab3",
-      // clientId: "6323d7b309953c1e202421ae",
+      projectId: "632a8b9067d8e9dbd8f0b2a3",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -47,8 +44,6 @@ router.get("/seed", async (req, res) => {
     },
     {
       projectId: "6329359c300c15062db36608",
-      // vendorId: "632449ff2e3c757cbafebab3",
-      // clientId: "6323d7b309953c1e202421af",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
