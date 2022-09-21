@@ -138,7 +138,8 @@ router.post("/login", async (req, res) => {
 
 //VENDOR VERIFY
 router.post("/verify", async (req, res) => {
-  const bearer = req.get("Authorization");
+  const bearer = req.header("Authorization");
+  console.log(bearer);
   const token = bearer.split(" ")[1];
   console.log(token);
 
@@ -231,7 +232,7 @@ router.put("/id/:id", async (req, res) => {
   }
 });
 
-//image update trial
+// //image update trial
 // router.put("/id/:id", upload.single("uploadedFiles"), async (req, res) => {
 //   const { id } = req.params;
 //   const body = req.body;
@@ -249,8 +250,7 @@ router.put("/id/:id", async (req, res) => {
 //     registrationNumber: body.registrationNumber,
 //     incorporationDate: body.incorporationDate,
 //     registeredOfficeAddress: body.registeredOfficeAddress,
-//     uploadedFiles:
-//       req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename,
+//     uploadedFiles: req.files,
 //     // trackedProjects: [""],
 //     // brandSummary: "",
 //   };

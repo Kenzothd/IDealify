@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "6322ca80102f0fb0edf322e4",
+      projectId: "632a8fe7ef91ee630e61bff6",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -27,7 +27,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "6322ca80102f0fb0edf322e6",
+      projectId: "632a8fe7ef91ee630e61bff6",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -37,7 +37,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "6322ca80102f0fb0edf322e4",
+      projectId: "632a8b9067d8e9dbd8f0b2a3",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -135,7 +135,7 @@ router.delete("/id/:id", async (req, res) => {
 });
 
 // Get Activities based on Project Id
-router.get("/project", async (req, res) => {
+router.get("/projects", async (req, res) => {
   const query = req.query;
   try {
     const activitiesFound = await Activity.find({ projectId: query.projectId });
