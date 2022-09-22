@@ -142,17 +142,15 @@ router.get("/findByRegistrationNum/:num", async (req, res) => {
 });
 
 //* Find by Email (Yup validation for vendor sign up)
-router.get("/findByEmail/:email",
-  async (req, res) => {
-    const { email } = req.params;
-    const vendor = await Vendor.find({ email: email });
-    if (vendor.length === 0) {
-      res.status(200).send([]);
-    } else {
-      res.status(200).send(vendor);
-    }
+router.get("/findByEmail/:email", async (req, res) => {
+  const { email } = req.params;
+  const vendor = await Vendor.find({ email: email });
+  if (vendor.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(vendor);
   }
-);
+});
 
 //VENDOR LOGIN
 router.post("/login", async (req, res) => {
@@ -196,20 +194,15 @@ router.post("/verify", async (req, res) => {
 });
 
 //* GET VENDOR BY ID
-router.get(
-  "/id/:id",
-  authenticateToken,
-  authenticateUser("client"),
-  async (req, res) => {
-    const { id } = req.params;
-    try {
-      const vendor = await Vendor.findById(id);
-      res.status(200).send(vendor);
-    } catch (err) {
-      res.status(500).send({ err });
-    }
+router.get("/id/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const vendor = await Vendor.findById(id);
+    res.status(200).send(vendor);
+  } catch (err) {
+    res.status(500).send({ err });
   }
-);
+});
 
 //* CREATE VENDOR
 router.post("/", async (req, res) => {
