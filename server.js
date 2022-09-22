@@ -75,6 +75,16 @@ app.get("/", (req, res) => {
   res.send({ msg: "ID PROJECT STARTED" });
 });
 
+// get project images
+app.get('/getimages', async (req, res) => {
+  const { resources } = await cloudinary.v2.search
+    .expression('folder:projects')
+    .max_results(30)
+    .execute()
+
+  const imgUrl = resources.map((file) => file.url)
+  res.send(imgUrl)
+})
 
 
 // upload project images
