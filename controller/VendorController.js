@@ -143,6 +143,19 @@ router.get("/findByRegistrationNum/:num",
   }
 );
 
+//* Find by Registration Number (Yup validation for vendor sign up acra number)
+router.get("/findByEmail/:email",
+  async (req, res) => {
+    const { email } = req.params;
+    const vendor = await Vendor.find({ email: email });
+    if (vendor.length === 0) {
+      res.status(200).send([]);
+    } else {
+      res.status(200).send(vendor);
+    }
+  }
+);
+
 //VENDOR LOGIN
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
