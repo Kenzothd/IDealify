@@ -285,6 +285,7 @@ router.put(
     const vendor = req.body;
     console.log("body", vendor);
     try {
+      const getVendor = await Vendor.findById(id)
       const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
         new: true,
       });

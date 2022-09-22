@@ -11,6 +11,7 @@ const authenticateVendorProject = require("../middleware/authenticateVendorProje
 router.get("/seed", async (req, res) => {
   const activities = [
     {
+
       projectId: "632c79b2f1666a02f1e884fc",
       activityTitle: "Hacking of walls",
       activityDescription:
@@ -21,6 +22,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
+
       projectId: "632c79b2f1666a02f1e884fc",
       activityTitle: "Painting of Toilet",
       activityDescription:
@@ -31,6 +33,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
+
       projectId: "632c79b2f1666a02f1e884fc",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
@@ -40,6 +43,7 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
+
       projectId: "632aacdc74f48bff7b47c473",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
@@ -49,6 +53,7 @@ router.get("/seed", async (req, res) => {
       status: "In Progress",
     },
     {
+
       projectId: "632aacdc74f48bff7b47c473",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
