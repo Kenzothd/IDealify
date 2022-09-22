@@ -12,9 +12,9 @@ const vendorSchema = new mongoose.Schema({
   registeredOfficeAddress: { type: String, required: true },
   uploadedFiles: [{ type: String }],
   brandSummary: String,
+  portfolio: [{ type: String }],
   // trackedProjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
   // messages: [{type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
-  // portfolio: [{type: mongoose.Schema.Types.ObjectId, ref: "Portfolio" }],
   // review: [{type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
 });
 
