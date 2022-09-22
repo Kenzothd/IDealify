@@ -14,7 +14,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
-      vendorId: "63293ba2cfeb3847f7c751ae",
+      vendorId: "632c7f5d64a88ea7f71802e5",
       clientId: "63295c7df69465d5dd86705f",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
@@ -28,8 +28,7 @@ router.get("/seed", async (req, res) => {
       comments: "Moden",
     },
     {
-
-      vendorId: "63293ba2cfeb3847f7c751ae",
+      vendorId: "632c7f5d64a88ea7f71802e5",
       clientId: "63295c7df69465d5dd86705f",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
@@ -43,8 +42,7 @@ router.get("/seed", async (req, res) => {
       comments: "Scanfla",
     },
     {
-
-      vendorId: "6326ad9268fde94c3e6438d4",
+      vendorId: "632c7f5d64a88ea7f71802e5",
       clientId: "6319681c3cea7b50135ee0ce",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
