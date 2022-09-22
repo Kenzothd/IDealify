@@ -52,9 +52,21 @@ router.get("/seed", async (req, res) => {
 // );
 
 //* Find by Username(Yup validate unique client username)
-router.get("/findByName/:name", authenticateToken, async (req, res) => {
+router.get("/findByName/:name", async (req, res) => {
   const { name } = req.params;
   const client = await Client.find({ username: name });
+  if (client.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(client);
+  }
+});
+
+
+//* Find by Email(Yup validate unique client username)
+router.get("/findByEmail/:email", async (req, res) => {
+  const { email } = req.params;
+  const client = await Client.find({ email: email });
   if (client.length === 0) {
     res.status(200).send([]);
   } else {
@@ -104,7 +116,11 @@ router.post("/", async (req, res) => {
       if (error) {
         res.status(500).send({ error: "Missing fields, please try again" });
       } else {
-        res.status(200).send(client);
+        const userId = client._id;
+        const username = client.username;
+        const payload = { userId, username };
+        const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
+        res.status(200).send({ client, token });
       }
     });
   }
@@ -114,7 +130,6 @@ router.post("/", async (req, res) => {
 router.get(
   "/id/:id",
   authenticateToken,
-  authenticateUser("vendor"),
   async (req, res) => {
     const { id } = req.params;
     try {
@@ -134,6 +149,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const clientUpdates = req.body;
+    clientUpdates.password = bcrypt.hashSync(clientUpdates.password, 10);
     try {
       const updatedClient = await Client.findByIdAndUpdate(id, clientUpdates, {
         new: true,
