@@ -11,7 +11,7 @@ const authenticateVendorProject = require("../middleware/authenticateVendorProje
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "632aacdc74f48bff7b47c475",
+      projectId: "632c79b2f1666a02f1e884fc",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -21,7 +21,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "632c103b7a4a04e311fa3b8d",
+      projectId: "632c79b2f1666a02f1e884fc",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -31,7 +31,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "632aacdc74f48bff7b47c475",
+      projectId: "632c79b2f1666a02f1e884fc",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",

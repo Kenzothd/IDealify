@@ -49,6 +49,16 @@ router.get("/seed", async (req, res) => {
       registeredOfficeAddress: "123 Admin Road Singapore 123456",
       uploadedFiles: "url",
       brandSummary: "some say best in batam",
+      portfolio: [
+        "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/1648771/pexels-photo-1648771.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/2251247/pexels-photo-2251247.jpeg?auto=compress&cs=tinysrgb&w=400",
+        "https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg?auto=compress&cs=tinysrgb&w=400",
+      ],
     },
     {
       email: "faith@hotmail.com",
@@ -62,6 +72,7 @@ router.get("/seed", async (req, res) => {
       registeredOfficeAddress: "123 Faith Road Singapore 123456",
       uploadedFiles: "url",
       brandSummary: "some say best in johor",
+      portfolio: ["url", "url", "url"],
     },
     {
       email: "clovis123@hotmail.com",
@@ -75,6 +86,7 @@ router.get("/seed", async (req, res) => {
       registeredOfficeAddress: "123 Clovis Road Singapore 123456",
       uploadedFiles: "url",
       brandSummary: "some say best in korea",
+      portfolio: ["url", "url", "url"],
     },
     {
       email: "kenzo123@hotmail.com",
@@ -88,6 +100,7 @@ router.get("/seed", async (req, res) => {
       registeredOfficeAddress: "123 Kenzo Road Singapore 123456",
       uploadedFiles: "url",
       brandSummary: "some say best in japan",
+      portfolio: ["url", "url", "url"],
     },
   ];
   try {
