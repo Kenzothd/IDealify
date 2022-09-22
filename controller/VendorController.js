@@ -131,7 +131,7 @@ router.get("/findByName/:name", async (req, res) => {
 });
 
 //* Find by Registration Number (Yup validation for vendor sign up acra number)
-router.get(
+router.get("/findByRegistrationNum/:num",
   async (req, res) => {
     const { num } = req.params;
     const vendor = await Vendor.find({ registrationNumber: num });

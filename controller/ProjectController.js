@@ -20,8 +20,8 @@ router.get("/seed", async (req, res) => {
   const projectSeed = [
     {
 
-      vendorId: "6329bb5c61f881384442c7c1",
-      clientId: "63295c7df69465d5dd867060",
+      vendorId: "632b1be3b2f0cfd8bfa89a85",
+      clientId: "6329bb5461f881384442c7bc",
       projectName: "Modern Living Room",
       housingType: "4-Room Flat (HDB)",
       projectStartDate: new Date(),
@@ -36,8 +36,8 @@ router.get("/seed", async (req, res) => {
     {
 
 
-      vendorId: "6329bb5c61f881384442c7c1",
-      clientId: "63295c7df69465d5dd867060",
+      vendorId: "632b1be3b2f0cfd8bfa89a85",
+      clientId: "6329bb5461f881384442c7bc",
       projectName: "Scandinavian Living Room",
       housingType: "5-Room Flat (HDB)",
       projectStartDate: new Date(),
@@ -51,8 +51,8 @@ router.get("/seed", async (req, res) => {
     },
     {
 
-      vendorId: "6329bb5c61f881384442c7c1",
-      clientId: "63295c7df69465d5dd867060",
+      vendorId: "632b1be3b2f0cfd8bfa89a85",
+      clientId: "6329bb5461f881384442c7bc",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
       projectStartDate: new Date(),
