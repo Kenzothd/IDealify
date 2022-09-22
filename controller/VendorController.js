@@ -131,17 +131,15 @@ router.get("/findByName/:name", async (req, res) => {
 });
 
 //* Find by Registration Number (Yup validation for vendor sign up acra number)
-router.get("/findByRegistrationNum/:num",
-  async (req, res) => {
-    const { num } = req.params;
-    const vendor = await Vendor.find({ registrationNumber: num });
-    if (vendor.length === 0) {
-      res.status(200).send([]);
-    } else {
-      res.status(200).send(vendor);
-    }
+router.get("/findByRegistrationNum/:num", async (req, res) => {
+  const { num } = req.params;
+  const vendor = await Vendor.find({ registrationNumber: num });
+  if (vendor.length === 0) {
+    res.status(200).send([]);
+  } else {
+    res.status(200).send(vendor);
   }
-);
+});
 
 //VENDOR LOGIN
 router.post("/login", async (req, res) => {
@@ -188,19 +186,14 @@ router.post("/verify", async (req, res) => {
 router.get(
   "/id/:id",
   authenticateToken,
-  authenticateUser("vendor"),
+  authenticateUser("client"),
   async (req, res) => {
-    const { payload } = req;
-    if (payload.userType === "vendor") {
-      const { id } = req.params;
-      try {
-        const vendor = await Vendor.findById(id);
-        res.status(200).send(vendor);
-      } catch (err) {
-        res.status(500).send({ err });
-      }
-    } else {
-      res.status(403).send({ error: "You are not an authorized vendor" });
+    const { id } = req.params;
+    try {
+      const vendor = await Vendor.findById(id);
+      res.status(200).send(vendor);
+    } catch (err) {
+      res.status(500).send({ err });
     }
   }
 );
