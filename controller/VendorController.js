@@ -194,8 +194,10 @@ router.get(
   authenticateUser("vendor"),
   async (req, res) => {
     const { payload } = req;
+    console.log(payload);
     if (payload.userType === "vendor") {
       const { id } = req.params;
+      console.log(id);
       try {
         const vendor = await Vendor.findById(id);
         res.status(200).send(vendor);
