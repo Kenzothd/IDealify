@@ -141,7 +141,7 @@ router.get("/findByRegistrationNum/:num", async (req, res) => {
   }
 });
 
-//* Find by Registration Number (Yup validation for vendor sign up acra number)
+//* Find by Email (Yup validation for vendor sign up)
 router.get("/findByEmail/:email",
   async (req, res) => {
     const { email } = req.params;
