@@ -79,7 +79,7 @@ app.get("/", (req, res) => {
 app.get('/getimages', async (req, res) => {
   const { resources } = await cloudinary.v2.search
     .expression('folder:projects')
-    .max_results(30)
+    .max_results(8)
     .execute()
 
   const imgUrl = resources.map((file) => file.url)
