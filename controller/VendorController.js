@@ -207,27 +207,22 @@ router.post("/verify", async (req, res) => {
 });
 
 //* GET VENDOR BY ID
-router.get(
-  "/id/:id",
-  authenticateToken,
-  authenticateUser("vendor"),
-  async (req, res) => {
-    const { payload } = req;
-    console.log(payload);
-    if (payload.userType === "vendor") {
-      const { id } = req.params;
-      console.log(id);
-      try {
-        const vendor = await Vendor.findById(id);
-        res.status(200).send(vendor);
-      } catch (err) {
-        res.status(500).send({ err });
-      }
-    } else {
-      res.status(403).send({ error: "You are not an authorized vendor" });
-    }
+router.get("/id/:id", authenticateToken, async (req, res) => {
+  const { payload } = req;
+  console.log(payload);
+  // if (payload.userType === "vendor") {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const vendor = await Vendor.findById(id);
+    res.status(200).send(vendor);
+  } catch (err) {
+    res.status(500).send({ err });
   }
-);
+  // } else {
+  //   res.status(403).send({ error: "You are not an authorized vendor" });
+  // }
+});
 
 //* CREATE VENDOR
 router.post("/", async (req, res) => {
@@ -285,7 +280,7 @@ router.put(
     const vendor = req.body;
     console.log("body", vendor);
     try {
-      const getVendor = await Vendor.findById(id)
+      const getVendor = await Vendor.findById(id);
       const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
         new: true,
       });
