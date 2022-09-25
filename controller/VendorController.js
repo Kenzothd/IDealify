@@ -210,23 +210,23 @@ router.post("/verify", async (req, res) => {
 router.get(
   "/id/:id",
   authenticateToken,
-  authenticateUser("vendor"),
   async (req, res) => {
-    const { payload } = req;
-    console.log(payload);
-    if (payload.userType === "vendor") {
-      const { id } = req.params;
-      console.log(id);
-      try {
-        const vendor = await Vendor.findById(id);
-        res.status(200).send(vendor);
-      } catch (err) {
-        res.status(500).send({ err });
-      }
-    } else {
-      res.status(403).send({ error: "You are not an authorized vendor" });
+    // const { payload } = req;
+    // console.log(payload);
+    // if (payload.userType === "vendor") {
+    const { id } = req.params;
+    console.log(id);
+    try {
+      const vendor = await Vendor.findById(id);
+      res.status(200).send(vendor);
+    } catch (err) {
+      res.status(500).send({ err });
     }
   }
+  // else {
+  //   res.status(403).send({ error: "You are not an authorized vendor" });
+  // }
+  // }
 );
 
 //* CREATE VENDOR

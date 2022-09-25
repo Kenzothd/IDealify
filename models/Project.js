@@ -31,7 +31,7 @@ const projectSchema = new mongoose.Schema({
     required: true,
     enum: ["Upcoming", "In Progress", "Completed", "Cancelled"],
   },
-  uploadedFiles: [{ type: String, required: true }],
+  uploadedFiles: [{ type: String }],
   description: String,
   //   projectProgress: [{type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
   // review:{type: mongoose.Schema.Types.ObjectId, ref: "Review" },
