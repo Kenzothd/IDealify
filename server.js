@@ -14,6 +14,7 @@ const ClientController = require("./controller/ClientController");
 const VendorController = require("./controller/VendorController");
 const ProjectController = require("./controller/ProjectController");
 const ActivityController = require("./controller/ActivityController");
+const PortfolioController = require("./controller/PortfolioController");
 
 //config
 const app = express();
@@ -50,6 +51,7 @@ app.use("/clients", ClientController);
 app.use("/vendors", VendorController);
 app.use("/projects", ProjectController);
 app.use("/activities", ActivityController);
+app.use("/portfolios", PortfolioController);
 
 
 
