@@ -40,8 +40,7 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
-
-      projectId: "632d209818fb5d33973e3ddd",
+      projectId: "632aacdc74f48bff7b47c473",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -50,7 +49,6 @@ router.get("/seed", async (req, res) => {
       status: "In Progress",
     },
     {
-
       projectId: "632d209818fb5d33973e3ddd",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
