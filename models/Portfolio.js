@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const portfolioSchema = new mongoose.Schema({
   vendorId: { type: String, required: true },
-  projectName: { type: String, required: true },
+  portfolioName: { type: String, required: true },
   housingType: {
     type: String,
     required: true,

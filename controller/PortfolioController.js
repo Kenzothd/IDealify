@@ -18,7 +18,7 @@ router.get("/seed", async (req, res) => {
   const portfolioSeed = [
     {
       vendorId: "632d1c36663dd92d258e0512",
-      projectName: "Jurong East HDB",
+      portfolioName: "Jurong East HDB",
       housingType: "4-Room Flat (HDB)",
       images: [
         "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -30,7 +30,7 @@ router.get("/seed", async (req, res) => {
     },
     {
       vendorId: "632d1c36663dd92d258e0512",
-      projectName: "Bukit Merah HDB",
+      portfolioName: "Bukit Merah HDB",
       housingType: "3-Room Flat (HDB)",
       images: [
         "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -41,7 +41,7 @@ router.get("/seed", async (req, res) => {
     },
     {
       vendorId: "632d1c36663dd92d258e0512",
-      projectName: "Woodland HDB",
+      portfolioName: "Woodland HDB",
       housingType: "5-Room Flat (HDB)",
       images: [
         "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=400",
