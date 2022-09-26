@@ -43,7 +43,7 @@ router.get("/seed", async (req, res) => {
     },
     {
       vendorId: "632c7f5d64a88ea7f71802e5",
-      clientId: "6319681c3cea7b50135ee0ce",
+      clientId: "632c7feb2d16b25722c4096d",
       projectName: "Black & white Living Room",
       housingType: "Apartment",
       projectStartDate: new Date(),

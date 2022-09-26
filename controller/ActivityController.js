@@ -11,7 +11,7 @@ const authenticateVendorProject = require("../middleware/authenticateVendorProje
 router.get("/seed", async (req, res) => {
   const activities = [
     {
-      projectId: "632c7feb2d16b25722c4096d",
+      projectId: "632d233b69b27d0f8a30a166",
       activityTitle: "Hacking of walls",
       activityDescription:
         "Hackers will reach around 10am to start hacking and clear tiles until 4pm. There will be lots of noise and dust.",
@@ -21,7 +21,7 @@ router.get("/seed", async (req, res) => {
       status: "Upcoming",
     },
     {
-      projectId: "632c7feb2d16b25722c4096d",
+      projectId: "632d233b69b27d0f8a30a166",
       activityTitle: "Painting of Toilet",
       activityDescription:
         "Painters will arrive in the morning and complete in an hour",
@@ -31,7 +31,7 @@ router.get("/seed", async (req, res) => {
       status: "Pending",
     },
     {
-      projectId: "632c7feb2d16b25722c4096d",
+      projectId: "632d233b69b27d0f8a30a166",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
       activityStartDate: "2022-09-14T13:31:08.355Z",
@@ -40,7 +40,6 @@ router.get("/seed", async (req, res) => {
       status: "Completed",
     },
     {
-
       projectId: "632aacdc74f48bff7b47c473",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
@@ -50,7 +49,6 @@ router.get("/seed", async (req, res) => {
       status: "In Progress",
     },
     {
-
       projectId: "632aacdc74f48bff7b47c473",
       activityTitle: "Install toilet piping",
       activityDescription: "Worker will reach around 11am to install piping.",
