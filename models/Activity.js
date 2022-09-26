@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema({
   projectId: { type: String, required: true },
-  // vendorId: { type: String, required: true },
-  // clientId: { type: String, required: true },
   activityTitle: { type: String, required: true },
   activityDescription: { type: String, required: true },
   activityStartDate: { type: Date, required: true },
