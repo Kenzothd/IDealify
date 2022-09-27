@@ -2,13 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const Portfolio = require("../models/Portfolio");
+const Vendor = require("../models/Vendor"); // faith changes
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const multer = require("multer"); // image upload trial
 const path = require("path"); // image upload trial
 const authenticateUser = require("../middleware/authenticateUser");
 const authenticateToken = require("../middleware/authenticateToken");
-
 
 //config
 const SECRET = process.env.SECRET ?? "KFC";
@@ -26,7 +26,7 @@ router.get("/seed", async (req, res) => {
         "https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg?auto=compress&cs=tinysrgb&w=400",
       ],
       description: "Solid house",
-      designTheme: "Minimalist"
+      designTheme: "Minimalist",
     },
     {
       vendorId: "632d1c36663dd92d258e0512",
@@ -37,7 +37,7 @@ router.get("/seed", async (req, res) => {
         "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=400",
       ],
       description: "Beautiful house",
-      designTheme: "Modern"
+      designTheme: "Modern",
     },
     {
       vendorId: "632d1c36663dd92d258e0512",
@@ -48,7 +48,7 @@ router.get("/seed", async (req, res) => {
         "https://images.pexels.com/photos/1648771/pexels-photo-1648771.jpeg?auto=compress&cs=tinysrgb&w=400",
       ],
       description: "Wonderful house",
-      designTheme: "Scandinavian"
+      designTheme: "Scandinavian",
     },
   ];
   try {
@@ -66,17 +66,14 @@ router.get("/seed", async (req, res) => {
 });
 
 //* SHOW ALL Portfolio (Home page)
-router.get(
-  "/",
-  async (req, res) => {
-    try {
-      const allPortfolios = await Portfolio.find();
-      res.status(200).send(allPortfolios);
-    } catch (err) {
-      res.status(500).send({ err });
-    }
+router.get("/", async (req, res) => {
+  try {
+    const allPortfolios = await Portfolio.find();
+    res.status(200).send(allPortfolios);
+  } catch (err) {
+    res.status(500).send({ err });
   }
-);
+});
 
 //* Show all Portfolios by User Id(Index Route)
 router.get("/findById/:vendorid", async (req, res) => {
@@ -88,8 +85,6 @@ router.get("/findById/:vendorid", async (req, res) => {
     res.status(200).send(portfolio);
   }
 });
-
-
 
 //* Create Portfolio
 router.post(
@@ -103,6 +98,13 @@ router.post(
     if (vendorId === userId) {
       try {
         const createdPortfolio = await Portfolio.create(newPortfolio);
+        // const vendor = await Vendor.findById(vendorId);
+        // vendor.portfolio.push(createdPortfolio._id);
+        // console.log(vendor);
+        // const updatedVendor = await Vendor.findByIdAndUpdate(vendorId, vendor, {
+        //   new: true,
+        // });
+        // console.log(updatedVendor);
         res.status(201).send(createdPortfolio);
       } catch (err) {
         console.log("error here");
@@ -114,23 +116,17 @@ router.post(
   }
 );
 
-
-
-
 //* Show 1 portfolio by portfolio Id
-router.get(
-  "/id/:id",
-  async (req, res) => {
-    const { id } = req.params;
-    console.log(id);
-    try {
-      const portfolio = await Portfolio.findById(id);
-      res.status(200).send(portfolio);
-    } catch (err) {
-      res.status(500).send({ err });
-    }
+router.get("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const portfolio = await Portfolio.findById(id);
+    res.status(200).send(portfolio);
+  } catch (err) {
+    res.status(500).send({ err });
   }
-);
+});
 
 //* UPDATE Portfolio
 router.put(
@@ -156,7 +152,6 @@ router.put(
     }
   }
 );
-
 
 //* DELETE VENDOR
 router.delete(
