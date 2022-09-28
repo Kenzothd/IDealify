@@ -70,7 +70,8 @@ router.get(
   "/",
   async (req, res) => {
     try {
-      const allPortfolios = await Portfolio.find();
+      const allPortfolios = await Portfolio.find().populate('vendorId', 'username');
+
       res.status(200).send(allPortfolios);
     } catch (err) {
       res.status(500).send({ err });
@@ -124,7 +125,7 @@ router.get(
     const { id } = req.params;
     console.log(id);
     try {
-      const portfolio = await Portfolio.findById(id);
+      const portfolio = await Portfolio.findById(id).populate('vendorId', 'brandSummary companyName contactPersonName contactNumber  email');
       res.status(200).send(portfolio);
     } catch (err) {
       res.status(500).send({ err });
@@ -158,7 +159,7 @@ router.put(
 );
 
 
-//* DELETE VENDOR
+//* DELETE Portfolio
 router.delete(
   "/id/:id",
   authenticateToken,
@@ -175,7 +176,7 @@ router.delete(
 
     console.log(portfolio);
     if (portfolio === undefined) {
-      res.status(401).send({ msg: "Project do not belong to vendor" });
+      res.status(401).send({ msg: "Portfolio do not belong to vendor" });
     } else {
       try {
         const deletedProject = await Portfolio.findByIdAndDelete(id);

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const portfolioSchema = new mongoose.Schema({
-  vendorId: { type: String, required: true },
+  vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
   portfolioName: { type: String, required: true },
   housingType: {
     type: String,
