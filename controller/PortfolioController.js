@@ -17,7 +17,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const portfolioSeed = [
     {
-      vendorId: "632d1c36663dd92d258e0512",
+      vendorId: "632c7f5d64a88ea7f71802e5",
       portfolioName: "Jurong East HDB",
       housingType: "4-Room Flat (HDB)",
       images: [
@@ -29,7 +29,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Minimalist",
     },
     {
-      vendorId: "632d1c36663dd92d258e0512",
+      vendorId: "632c7f5d64a88ea7f71802e5",
       portfolioName: "Bukit Merah HDB",
       housingType: "3-Room Flat (HDB)",
       images: [
@@ -40,7 +40,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "632d1c36663dd92d258e0512",
+      vendorId: "632c7f5d64a88ea7f71802e5",
       portfolioName: "Woodland HDB",
       housingType: "5-Room Flat (HDB)",
       images: [
