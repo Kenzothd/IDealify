@@ -129,7 +129,6 @@ router.post("/", async (req, res) => {
 //Show 1 Client
 router.get(
   "/id/:id",
-  authenticateToken,
   async (req, res) => {
     const { id } = req.params;
     try {
@@ -141,7 +140,31 @@ router.get(
   }
 );
 
-//Update Client
+//Validate 1 client password
+router.post("/validatepw/:id", async (req, res) => {
+  const { password } = req.body
+  console.log(password)
+  const { id } = req.params;
+  if (password === undefined) {
+    res.status(200).send({ msg: "No Input" });
+  } else {
+    try {
+      const client = await Client.findById(id);
+      if (bcrypt.compareSync(password, client.password)) {
+        res.status(200).send(client);
+      } else {
+        res.status(401).send({ error: "Previous password is wrong!" });
+      }
+
+    } catch (err) {
+      res.status(400).send({ error: "No client found!" });
+    }
+  }
+
+}
+);
+
+//Update Client password
 router.put(
   "/id/:id",
   authenticateToken,
@@ -164,6 +187,7 @@ router.put(
     }
   }
 );
+
 
 //Delete Client
 router.delete(

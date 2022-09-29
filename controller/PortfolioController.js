@@ -17,7 +17,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const portfolioSeed = [
     {
-      vendorId: "632d1c36663dd92d258e0512",
+      vendorId: "63344ec2ae050a1c989bbd5e",
       portfolioName: "Jurong East HDB",
       housingType: "4-Room Flat (HDB)",
       images: [
@@ -29,7 +29,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Minimalist",
     },
     {
-      vendorId: "632d1c36663dd92d258e0512",
+      vendorId: "63344ec2ae050a1c989bbd5e",
       portfolioName: "Bukit Merah HDB",
       housingType: "3-Room Flat (HDB)",
       images: [
@@ -40,7 +40,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "632d1c36663dd92d258e0512",
+      vendorId: "63344ec2ae050a1c989bbd5e",
       portfolioName: "Woodland HDB",
       housingType: "5-Room Flat (HDB)",
       images: [
@@ -66,7 +66,6 @@ router.get("/seed", async (req, res) => {
 });
 
 //* SHOW ALL Portfolio (Home page)
-<<<<<<< HEAD
 router.get(
   "/",
   async (req, res) => {
@@ -77,16 +76,7 @@ router.get(
     } catch (err) {
       res.status(500).send({ err });
     }
-=======
-router.get("/", async (req, res) => {
-  try {
-    const allPortfolios = await Portfolio.find();
-    res.status(200).send(allPortfolios);
-  } catch (err) {
-    res.status(500).send({ err });
->>>>>>> c6f3481078b191ba5bd6cd5d7273497293d017df
-  }
-});
+  });
 
 //* Show all Portfolios by User Id(Index Route)
 router.get("/findById/:vendorid", async (req, res) => {
@@ -130,7 +120,7 @@ router.post(
 );
 
 //* Show 1 portfolio by portfolio Id
-<<<<<<< HEAD
+
 router.get(
   "/id/:id",
   async (req, res) => {
@@ -142,18 +132,7 @@ router.get(
     } catch (err) {
       res.status(500).send({ err });
     }
-=======
-router.get("/id/:id", async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-  try {
-    const portfolio = await Portfolio.findById(id);
-    res.status(200).send(portfolio);
-  } catch (err) {
-    res.status(500).send({ err });
->>>>>>> c6f3481078b191ba5bd6cd5d7273497293d017df
-  }
-});
+  });
 
 //* UPDATE Portfolio
 router.put(
@@ -180,12 +159,9 @@ router.put(
   }
 );
 
-<<<<<<< HEAD
 
 //* DELETE Portfolio
-=======
-//* DELETE VENDOR
->>>>>>> c6f3481078b191ba5bd6cd5d7273497293d017df
+
 router.delete(
   "/id/:id",
   authenticateToken,
