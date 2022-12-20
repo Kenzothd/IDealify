@@ -17,7 +17,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const portfolioSeed = [
     {
-      vendorId: "63344ec2ae050a1c989bbd5e",
+      vendorId: "633599139cbf6cd7ff704025",
       portfolioName: "Jurong East HDB",
       housingType: "4-Room Flat (HDB)",
       images: [
@@ -29,7 +29,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Minimalist",
     },
     {
-      vendorId: "63344ec2ae050a1c989bbd5e",
+      vendorId: "633599139cbf6cd7ff704025",
       portfolioName: "Bukit Merah HDB",
       housingType: "3-Room Flat (HDB)",
       images: [
@@ -40,7 +40,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "63344ec2ae050a1c989bbd5e",
+      vendorId: "633599139cbf6cd7ff704025",
       portfolioName: "Woodland HDB",
       housingType: "5-Room Flat (HDB)",
       images: [
@@ -66,17 +66,18 @@ router.get("/seed", async (req, res) => {
 });
 
 //* SHOW ALL Portfolio (Home page)
-router.get(
-  "/",
-  async (req, res) => {
-    try {
-      const allPortfolios = await Portfolio.find().populate('vendorId', 'username');
+router.get("/", async (req, res) => {
+  try {
+    const allPortfolios = await Portfolio.find().populate(
+      "vendorId",
+      "username"
+    );
 
-      res.status(200).send(allPortfolios);
-    } catch (err) {
-      res.status(500).send({ err });
-    }
-  });
+    res.status(200).send(allPortfolios);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
 //* Show all Portfolios by User Id(Index Route)
 router.get("/findById/:vendorid", async (req, res) => {
@@ -121,18 +122,19 @@ router.post(
 
 //* Show 1 portfolio by portfolio Id
 
-router.get(
-  "/id/:id",
-  async (req, res) => {
-    const { id } = req.params;
-    console.log(id);
-    try {
-      const portfolio = await Portfolio.findById(id).populate('vendorId', 'brandSummary companyName contactPersonName contactNumber  email');
-      res.status(200).send(portfolio);
-    } catch (err) {
-      res.status(500).send({ err });
-    }
-  });
+router.get("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const portfolio = await Portfolio.findById(id).populate(
+      "vendorId",
+      "brandSummary companyName contactPersonName contactNumber  email"
+    );
+    res.status(200).send(portfolio);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
 //* UPDATE Portfolio
 router.put(
@@ -158,7 +160,6 @@ router.put(
     }
   }
 );
-
 
 //* DELETE Portfolio
 

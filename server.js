@@ -19,14 +19,9 @@ const PortfolioController = require("./controller/PortfolioController");
 //config
 const app = express();
 const PORT = process.env.PORT ?? 3000;
-const MONGO_URI = "mongodb://localhost:27017/test";
-const {
-  cloudinaryName,
-  cloudinaryApiKey,
-  cloudinaryApiSecret,
-} = process.env
-
-
+const MONGO_URI =
+  "mongodb+srv://sei38:sei38@cluster0.gndtvgd.mongodb.net/?retryWrites=true&w=majority";
+const { cloudinaryName, cloudinaryApiKey, cloudinaryApiSecret } = process.env;
 
 mongoose.connection.once("open", () => {
   console.log("connected to mongoose...");
@@ -45,16 +40,14 @@ mongoose.connect(MONGO_URI, {}, () => {
 //*middleware
 app.use(cors());
 app.use(morgan("dev"));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }))
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use("/clients", ClientController);
 app.use("/vendors", VendorController);
 app.use("/projects", ProjectController);
 app.use("/activities", ActivityController);
 app.use("/portfolios", PortfolioController);
-
-
 
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
@@ -70,55 +63,50 @@ cloudinary.v2.config({
 
 const upload = multer({ storage });
 
-
-
-
 //smoke test
 app.get("/", (req, res) => {
   res.send({ msg: "ID PROJECT STARTED" });
 });
 
 // get project images
-app.get('/getimages', async (req, res) => {
+app.get("/getimages", async (req, res) => {
   const { resources } = await cloudinary.v2.search
-    .expression('folder:projects')
+    .expression("folder:projects")
     .max_results(8)
-    .execute()
+    .execute();
 
-  const imgUrl = resources.map((file) => file.url)
-  res.send(imgUrl)
-})
-
-
-// upload project images
-app.post("/upload-images", upload.array("uploadedFiles", 10), async (req, res) => {
-
-  try {
-    const imagesFiles = req.files;
-    console.log(imagesFiles)
-    if (!imagesFiles)
-      return res.status(400).send({ msg: "No picture attached!" });
-
-    const multiplePicturePromise = imagesFiles.map((picture) =>
-      cloudinary.v2.uploader.upload(picture.path, {
-        upload_preset: 'Project'
-      })
-    );
-
-    const imageResponses = await Promise.all(multiplePicturePromise);
-    const imageLinks = imageResponses.map((image) => image.url)
-    console.log(imageLinks)
-
-
-    res.status(200).send({ imageLinks });
-  } catch (err) {
-    res.status(500).send({ msg: 'Unable to upload' });
-  }
+  const imgUrl = resources.map((file) => file.url);
+  res.send(imgUrl);
 });
 
+// upload project images
+app.post(
+  "/upload-images",
+  upload.array("uploadedFiles", 10),
+  async (req, res) => {
+    try {
+      const imagesFiles = req.files;
+      console.log(imagesFiles);
+      if (!imagesFiles)
+        return res.status(400).send({ msg: "No picture attached!" });
 
+      const multiplePicturePromise = imagesFiles.map((picture) =>
+        cloudinary.v2.uploader.upload(picture.path, {
+          upload_preset: "Project",
+        })
+      );
 
+      const imageResponses = await Promise.all(multiplePicturePromise);
+      const imageLinks = imageResponses.map((image) => image.url);
+      console.log(imageLinks);
 
-app.listen(PORT, () => {
+      res.status(200).send({ imageLinks });
+    } catch (err) {
+      res.status(500).send({ msg: "Unable to upload" });
+    }
+  }
+);
+
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`express started on ${PORT}`);
 });
