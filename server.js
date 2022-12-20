@@ -37,6 +37,7 @@ mongoose.connection.on("error", (err) =>
 );
 
 mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
+
 mongoose.connect(MONGO_URI, {}, () => {
   console.log("the connection with mongodb is established");
 });
