@@ -17,7 +17,7 @@ const SECRET = process.env.SECRET ?? "KFC";
 router.get("/seed", async (req, res) => {
   const portfolioSeed = [
     {
-      vendorId: "633599139cbf6cd7ff704025",
+      vendorId: "63a91adc3f0be9026c084ec1",
       portfolioName: "Jurong East HDB",
       housingType: "4-Room Flat (HDB)",
       images: [
@@ -29,7 +29,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Minimalist",
     },
     {
-      vendorId: "633599139cbf6cd7ff704025",
+      vendorId: "63a91adc3f0be9026c084ec1",
       portfolioName: "Bukit Merah HDB",
       housingType: "3-Room Flat (HDB)",
       images: [
@@ -40,7 +40,7 @@ router.get("/seed", async (req, res) => {
       designTheme: "Modern",
     },
     {
-      vendorId: "633599139cbf6cd7ff704025",
+      vendorId: "63a91adc3f0be9026c084ec1",
       portfolioName: "Woodland HDB",
       housingType: "5-Room Flat (HDB)",
       images: [
@@ -121,7 +121,6 @@ router.post(
 );
 
 //* Show 1 portfolio by portfolio Id
-
 router.get("/id/:id", async (req, res) => {
   const { id } = req.params;
   console.log(id);
