@@ -111,8 +111,8 @@ router.get("/seed", async (req, res) => {
 //* SHOW ALL VENDORS
 router.get(
   "/",
-  authenticateToken,
-  authenticateUser("vendor"),
+  // authenticateToken,
+  // authenticateUser("vendor"),
   async (req, res) => {
     try {
       const allVendors = await Vendor.find();
