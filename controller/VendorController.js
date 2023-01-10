@@ -40,7 +40,7 @@ router.get("/seed", async (req, res) => {
     {
       email: "admin123@hotmail.com",
       contactPersonName: "Admin",
-      username: "admin123",
+      username: "testVendorAccount",
       password: bcrypt.hashSync("password123", 10),
       contactNumber: 92839485,
       companyName: "Admin Pte Ltd",
@@ -222,7 +222,6 @@ router.post("/verify", async (req, res) => {
 //* GET VENDOR BY ID
 router.get(
   "/id/:id",
-  authenticateToken,
   async (req, res) => {
     // const { payload } = req;
     // console.log(payload);
@@ -298,7 +297,7 @@ router.put(
     const vendor = req.body;
     console.log("body", vendor);
     try {
-      const getVendor = await Vendor.findById(id);
+      // const getVendor = await Vendor.findById(id);
       const updatedVendor = await Vendor.findByIdAndUpdate(id, vendor, {
         new: true,
       });

@@ -20,7 +20,7 @@ router.get("/seed", async (req, res) => {
       fullName: "Peter Tan",
     },
     {
-      username: "marygoh",
+      username: "testHomeownerAccount",
       password: bcrypt.hashSync("123", 10),
       email: "marygoh@hotmail.com",
       fullName: "Mary Goh",
