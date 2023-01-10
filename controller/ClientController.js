@@ -37,19 +37,19 @@ router.get("/seed", async (req, res) => {
 });
 
 //* Show all Clients
-// router.get(
-//   "/",
-//   authenticateToken,
-//   authenticateUser("vendor"),
-//   async (req, res) => {
-//     try {
-//       const allClients = await Client.find({});
-//       res.status(200).send(allClients);
-//     } catch (err) {
-//       res.status(500).send({ err });
-//     }
-//   }
-// );
+router.get(
+  "/",
+  // authenticateToken,
+  // authenticateUser("vendor"),
+  async (req, res) => {
+    try {
+      const allClients = await Client.find({});
+      res.status(200).send(allClients);
+    } catch (err) {
+      res.status(500).send({ err });
+    }
+  }
+);
 
 //* Find by Username(Yup validate unique client username)
 router.get("/findByName/:name", async (req, res) => {
@@ -61,7 +61,6 @@ router.get("/findByName/:name", async (req, res) => {
     res.status(200).send(client);
   }
 });
-
 
 //* Find by Email(Yup validate unique client username)
 router.get("/findByEmail/:email", async (req, res) => {
@@ -92,6 +91,27 @@ router.post("/login", async (req, res) => {
     res.status(200).send({ msg: "login", token });
   } else {
     res.status(400).send({ error: "wrong password" });
+  }
+});
+
+//* Login Google User
+router.post("/google", async (req, res) => {
+  try {
+    const googleUser = req.body;
+    console.log(googleUser);
+    const client = await Client.findOne({
+      where: {
+        email: googleUser.email,
+      },
+    });
+    const userId = client._id;
+    const username = client.username;
+    const userType = "client";
+    const payload = { userId, username, userType };
+    const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
+    res.status(200).send({ msg: "login", token });
+  } catch {
+    res.status(400).send({ error: "Client Not found" });
   }
 });
 
@@ -127,23 +147,20 @@ router.post("/", async (req, res) => {
 });
 
 //Show 1 Client
-router.get(
-  "/id/:id",
-  async (req, res) => {
-    const { id } = req.params;
-    try {
-      const newClient = await Client.findById(id);
-      res.status(200).send(newClient);
-    } catch (err) {
-      res.status(400).send({ error: "No client found!" });
-    }
+router.get("/id/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const newClient = await Client.findById(id);
+    res.status(200).send(newClient);
+  } catch (err) {
+    res.status(400).send({ error: "No client found!" });
   }
-);
+});
 
 //Validate 1 client password
 router.post("/validatepw/:id", async (req, res) => {
-  const { password } = req.body
-  console.log(password)
+  const { password } = req.body;
+  console.log(password);
   const { id } = req.params;
   if (password === undefined) {
     res.status(200).send({ msg: "No Input" });
@@ -155,14 +172,11 @@ router.post("/validatepw/:id", async (req, res) => {
       } else {
         res.status(401).send({ error: "Previous password is wrong!" });
       }
-
     } catch (err) {
       res.status(400).send({ error: "No client found!" });
     }
   }
-
-}
-);
+});
 
 //Update Client password
 router.put(
@@ -187,7 +201,6 @@ router.put(
     }
   }
 );
-
 
 //Delete Client
 router.delete(

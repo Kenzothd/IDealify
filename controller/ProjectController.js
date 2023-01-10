@@ -77,7 +77,7 @@ router.get("/", authenticateToken, async (req, res) => {
     const allProjects = await Project.find({ [userID]: payload.userId });
     console.log(allProjects);
     if (allProjects.length === 0) {
-      res.status(500).send({ error: "No Projects Found" });
+      res.status(200).send({ msg: "No Projects Found" });
     } else {
       res.status(200).send(allProjects);
     }

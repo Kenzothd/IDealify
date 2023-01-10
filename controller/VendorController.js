@@ -174,6 +174,28 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//* Login Google User
+router.post("/google", async (req, res) => {
+  try {
+    const googleUser = req.body;
+    console.log(googleUser);
+    const vendor = await Vendor.findOne({
+      where: {
+        email: googleUser.email,
+      },
+    });
+    console.log(newVendor);
+    const userId = vendor._id;
+    const username = vendor.username;
+    const userType = "vendor";
+    const payload = { userId, username, userType };
+    const token = jwt.sign(payload, SECRET, { expiresIn: "30m" });
+    res.status(200).send({ msg: "login", token });
+  } catch {
+    res.status(400).send({ error: "Vendor Not found" });
+  }
+});
+
 //VENDOR VERIFY
 router.post("/verify", async (req, res) => {
   const bearer = req.header("Authorization");
