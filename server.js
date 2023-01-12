@@ -109,6 +109,9 @@ app.post(
 // AWS Upload Route
 app.post("/aws/upload-files", AWSController.createFiles);
 
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+});
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`express started on ${PORT}`);
 });
