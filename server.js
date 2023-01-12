@@ -3,9 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const morgan = require("morgan");
+
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const cloudinary = require("cloudinary");
 const multer = require("multer");
 
@@ -15,6 +14,7 @@ const VendorController = require("./controller/VendorController");
 const ProjectController = require("./controller/ProjectController");
 const ActivityController = require("./controller/ActivityController");
 const PortfolioController = require("./controller/PortfolioController");
+const AWSController = require("./controller/AWSController");
 
 //config
 const app = express();
@@ -105,6 +105,9 @@ app.post(
     }
   }
 );
+
+// AWS Upload Route
+app.post("/aws/upload-files", AWSController.createFiles);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`express started on ${PORT}`);
